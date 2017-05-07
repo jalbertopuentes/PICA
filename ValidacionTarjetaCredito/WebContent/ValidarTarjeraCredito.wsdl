@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="VaidarTarjetaCredito" targetNamespace="http://www.validar.com/ValidacionTarjetaCredito/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.validar.com/ValidacionTarjetaCredito/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.validar.com/ValidacionTarjetaCredito/">
+			<xsd:complexType name="CreditCard">
+				<xsd:sequence>
+					<xsd:element name="ccType" type="xsd:string"/>
+					<xsd:element name="ccNum" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="creditCard" type="tns:CreditCard"/>
+			<xsd:element name="valid" type="xsd:boolean"/>
+			<xsd:element name="error" type="xsd:string"/>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="CreditCardValidationResponseMessage">
+    <wsdl:part name="valid" element="tns:valid">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreditCardValidationFaultMessage">
+    <wsdl:part name="error" element="tns:error">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="CreditCardValidationRequestMessage">
+    <wsdl:part name="creditCard" element="tns:creditCard">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="ValidateCreditCard">
+    <wsdl:operation name="VerifyCC">
+      <wsdl:input name="CreditCardInfo" message="tns:CreditCardValidationRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:CreditCardValidationResponseMessage">
+    </wsdl:output>
+      <wsdl:fault name="NegativeCreditBalance" message="tns:CreditCardValidationFaultMessage">
+    </wsdl:fault>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ValidateCreditCardSOAP" type="tns:ValidateCreditCard">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="VerifyCC">
+      <soap:operation soapAction="http://www.validar.com/VerifyCC"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VaidarTarjetaCredito">
+    <wsdl:port name="VaidarTarjetaCreditoService" binding="tns:ValidateCreditCardSOAP">
+      <soap:address location="http://localhost:8086/ValidacionTarjetaCredito/services/VaidarTarjetaCreditoService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
