@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="RapidService" targetNamespace="http://www.rapidservice.org/RapidService/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://www.rapidservice.org/RapidService/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://www.rapidservice.org/RapidService/">
+			<xsd:complexType name="Item">
+				<xsd:sequence>
+					<xsd:element name="itemId" nillable="true" type="xsd:string"/>
+					<xsd:element name="quantity" type="xsd:long"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="orderQuouteElement">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="orderId" nillable="true" type="xsd:string"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="orderQuouteResponseElement">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="result" type="xsd:boolean"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="processQuoteElement">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="orderId" nillable="true" type="xsd:string"/>
+						<xsd:element maxOccurs="unbounded" minOccurs="0" name="items" nillable="true" type="tns:Item"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="processQuoteResponseElement">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="result" nillable="true" type="tns:Quote"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:complexType name="Quote">
+				<xsd:sequence>
+					<xsd:element name="supplierPrice" nillable="true"
+						type="xsd:string" />
+					<xsd:element name="quantityAvailable" type="xsd:int"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="RapidService_orderQuoute">
+    <wsdl:part name="parameters" element="tns:orderQuouteElement">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RapidService_processQuoteResponse">
+    <wsdl:part name="parameters" element="tns:processQuoteResponseElement">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RapidService_orderQuouteResponse">
+    <wsdl:part name="parameters" element="tns:orderQuouteResponseElement">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="RapidService_processQuote">
+    <wsdl:part name="parameters" element="tns:processQuoteElement">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="RapidService">
+    <wsdl:operation name="orderQuoute">
+      <wsdl:input message="tns:RapidService_orderQuoute">
+    </wsdl:input>
+      <wsdl:output message="tns:RapidService_orderQuouteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="processQuote">
+      <wsdl:input message="tns:RapidService_processQuote">
+    </wsdl:input>
+      <wsdl:output message="tns:RapidService_processQuoteResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="RapidServiceSOAP" type="tns:RapidService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="orderQuoute">
+      <soap:operation soapAction="http://www.rapidservice.org/RapidService/orderQuoute"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="processQuote">
+      <soap:operation soapAction="http://www.rapidservice.org/RapidService/processQuote"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="RapidService">
+    <wsdl:port name="RapidServiceSOAP" binding="tns:RapidServiceSOAP">
+      <soap:address location="http://localhost:8086/RapidService/services"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
