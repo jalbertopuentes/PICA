@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions name="SonyQuoteService" targetNamespace="http://xmlns.oracle.com/SonyQuoteService" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://xmlns.oracle.com/SonyQuoteService" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+  <wsdl:types>
+    <xsd:schema attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://xmlns.oracle.com/SonyQuoteService">
+			<xsd:complexType name="Item">
+				<xsd:sequence>
+					<xsd:element name="itemId" nillable="true" type="xsd:string"/>
+					<xsd:element name="quantity" type="xsd:long"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="Quote">
+				<xsd:sequence>
+					<xsd:element name="supplierPrice" nillable="true"
+						type="xsd:string" />
+					<xsd:element name="quantityAvailable" type="xsd:int"></xsd:element>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:element name="SonyQuoteServiceProcessRequest">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="orderId" nillable="true" type="xsd:string"/>
+						<xsd:element maxOccurs="unbounded" minOccurs="0" name="items" nillable="true" type="tns:Item"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SonyQuoteServiceProcessResponse">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="result" nillable="true" type="tns:Quote"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="SonyQuoteServiceResponseMessage">
+    <wsdl:part name="payload" element="tns:SonyQuoteServiceProcessResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="SonyQuoteServiceRequestMessage">
+    <wsdl:part name="payload" element="tns:SonyQuoteServiceProcessRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="SonyQuoteService">
+    <wsdl:operation name="initiate">
+      <wsdl:input message="tns:SonyQuoteServiceRequestMessage">
+    </wsdl:input>
+      <wsdl:output message="tns:SonyQuoteServiceResponseMessage">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SonyCotizacionSOAP" type="tns:SonyQuoteService">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="initiate">
+      <soap:operation soapAction="http://www.sony.com/orderQuoute"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="SonyCotizacion">
+    <wsdl:port name="SonyOrderService" binding="tns:SonyCotizacionSOAP">
+      <soap:address location="http://localhost:8086/SonyCotizacion/services/SonyOrderService"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
