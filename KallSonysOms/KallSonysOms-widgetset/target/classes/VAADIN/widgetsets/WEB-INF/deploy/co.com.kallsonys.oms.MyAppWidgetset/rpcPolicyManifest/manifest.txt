@@ -1,0 +1,2 @@
+# Module co.com.kallsonys.oms.MyAppWidgetset
+# RPC service class, partial path of RPC policy file
