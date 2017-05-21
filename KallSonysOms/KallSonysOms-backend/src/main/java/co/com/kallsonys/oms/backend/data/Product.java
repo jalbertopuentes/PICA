@@ -8,6 +8,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+import co.com.kallsonys.oms.backend.entity.Categoria;
+
 public class Product implements Serializable {
 
     @NotNull
@@ -22,8 +24,35 @@ public class Product implements Serializable {
     private int stockCount = 0;
     @NotNull
     private Availability availability = Availability.COMING;
+    private String codigo;
+    private String urlImagen;
+    private Categoria categoria;
 
-    public int getId() {
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
+    public String getUrlImagen() {
+		return urlImagen;
+	}
+
+	public void setUrlImagen(String urlImagen) {
+		this.urlImagen = urlImagen;
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(String codigo) {
+		this.codigo = codigo;
+	}
+
+	public int getId() {
         return id;
     }
 

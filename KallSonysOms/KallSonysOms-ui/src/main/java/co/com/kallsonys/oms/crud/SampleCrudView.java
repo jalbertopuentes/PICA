@@ -44,6 +44,7 @@ public class SampleCrudView extends CssLayout implements View {
         grid.setDataProvider(dataProvider);
         grid.asSingleSelect().addValueChangeListener(
                 event -> viewLogic.rowSelected(event.getValue()));
+//        grid.setHeightByRows(10);
 
         form = new ProductForm(viewLogic);
         form.setCategories(DataService.get().getAllCategories());

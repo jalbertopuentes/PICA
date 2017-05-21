@@ -1,0 +1,14 @@
+co\com\kallsonys\oms\backend\dao\CategoriaDao.class
+co\com\kallsonys\oms\backend\data\Category.class
+co\com\kallsonys\oms\backend\entity\Categoria.class
+co\com\kallsonys\oms\backend\entity\Fabricante.class
+co\com\kallsonys\oms\backend\entity\Fabricante_.class
+co\com\kallsonys\oms\backend\entity\Producto_.class
+co\com\kallsonys\oms\backend\entity\Categoria_.class
+co\com\kallsonys\oms\backend\data\Availability.class
+co\com\kallsonys\oms\backend\entity\Producto.class
+co\com\kallsonys\oms\backend\mock\MockDataGenerator.class
+co\com\kallsonys\oms\backend\mock\MockDataService.class
+co\com\kallsonys\oms\backend\data\Product.class
+co\com\kallsonys\oms\backend\DataService.class
+co\com\kallsonys\oms\backend\dao\ProductoDao.class
