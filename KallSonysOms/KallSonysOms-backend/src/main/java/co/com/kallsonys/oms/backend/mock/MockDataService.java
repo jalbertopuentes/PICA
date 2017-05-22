@@ -1,14 +1,17 @@
 package co.com.kallsonys.oms.backend.mock;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import co.com.kallsonys.oms.backend.DataService;
 import co.com.kallsonys.oms.backend.dao.CategoriaDao;
+import co.com.kallsonys.oms.backend.dao.FabricanteDao;
 import co.com.kallsonys.oms.backend.dao.ProductoDao;
 import co.com.kallsonys.oms.backend.data.Category;
 import co.com.kallsonys.oms.backend.data.Product;
 import co.com.kallsonys.oms.backend.entity.Categoria;
+import co.com.kallsonys.oms.backend.entity.Fabricante;
 import co.com.kallsonys.oms.backend.entity.Producto;
 
 /**
@@ -24,6 +27,7 @@ public class MockDataService extends DataService {
 	private int nextProductId = 0;
 	private ProductoDao productoDao = new ProductoDao();
 	private CategoriaDao categoriaDao = new CategoriaDao();
+	private FabricanteDao fabricanteDao = new FabricanteDao();
 
 	private MockDataService() {
 		categories = MockDataGenerator.createCategories();
@@ -53,6 +57,9 @@ public class MockDataService extends DataService {
 				pView.setCodigo(p.getCodigo());
 				pView.setUrlImagen(p.getUrlImagen());
 				pView.setCategoria(p.getCategoria());
+				pView.setValorDescuento(p.getValorDescuento());
+				pView.setFabricante(p.getFabricante());
+				pView.setDescripcion(p.getDescripcion());
 				products.add(pView);
 			}
 		}
@@ -73,8 +80,13 @@ public class MockDataService extends DataService {
 				categories.add(cView);
 			}
 		}
-		
+
 		return categories;
+	}
+	
+	@Override
+	public synchronized List<Categoria> getCategorias() {
+		return categoriaDao.consultarTodasLasCategorias();
 	}
 
 	@Override
@@ -87,7 +99,15 @@ public class MockDataService extends DataService {
 		producto.setNombre(p.getProductName());
 		producto.setUrlImagen(p.getUrlImagen());
 		producto.setValor(p.getPrice());
-		productoDao.actualizarProducto(producto);
+		producto.setFabricante(p.getFabricante());
+		producto.setDescripcion(p.getDescripcion());
+		producto.setValorDescuento(p.getValorDescuento());
+		//Si es -1 es por que es crear producto
+		if (p.getId() < 0) {
+			productoDao.crearProducto(producto);
+		}else{
+			productoDao.actualizarProducto(producto);
+		}
 	}
 
 	@Override
@@ -103,5 +123,10 @@ public class MockDataService extends DataService {
 	@Override
 	public synchronized void deleteProduct(int productId) {
 		productoDao.eliminarProducto(productId);
+	}
+	
+	@Override
+	public synchronized  List<Fabricante> consultarTodosLosFabricantes() {
+		return fabricanteDao.consultarTodosLosFabricantes();
 	}
 }

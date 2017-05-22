@@ -54,7 +54,7 @@ public class ProductDataProvider
      *           the text to filter by, never null
      */
     public void setFilter(String filterText) {
-        Objects.requireNonNull(filterText, "Filter text cannot be null");
+        Objects.requireNonNull(filterText, "El filtro no puede ser nulo");
         if (Objects.equals(this.filterText, filterText.trim())) {
             return;
         }
@@ -65,7 +65,7 @@ public class ProductDataProvider
     
     @Override
     public Integer getId(Product product) {
-        Objects.requireNonNull(product, "Cannot provide an id for a null product.");
+        Objects.requireNonNull(product, "Nos e puede proveer un id para un producto nulo.");
         
         return product.getId();
     }
@@ -87,8 +87,8 @@ public class ProductDataProvider
         }
         return DataService.get().getAllProducts().stream().filter(
                 product -> passesFilter(product.getProductName(), filterText)
-                        || passesFilter(product.getAvailability(), filterText)
-                        || passesFilter(product.getCategory(), filterText));
+                        || passesFilter(product.getCodigo(), filterText)
+                        || passesFilter(product.getDescripcion(), filterText));
     }
 
     private boolean passesFilter(Object object, String filterText) {

@@ -47,7 +47,7 @@ public class SampleCrudView extends CssLayout implements View {
 //        grid.setHeightByRows(10);
 
         form = new ProductForm(viewLogic);
-        form.setCategories(DataService.get().getAllCategories());
+//        form.setCategories(DataService.get().getAllCategories());
 
         VerticalLayout barAndGridLayout = new VerticalLayout();
         barAndGridLayout.addComponent(topLayout);

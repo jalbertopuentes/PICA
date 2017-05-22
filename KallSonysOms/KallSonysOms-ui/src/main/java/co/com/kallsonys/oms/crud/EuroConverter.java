@@ -22,7 +22,7 @@ public class EuroConverter extends StringToBigDecimalConverter {
     @Override
     public Result<BigDecimal> convertToModel(String value,
             ValueContext context) {
-        value = value.replaceAll("[€\\s]", "").trim();
+        value = value.replaceAll("[$\\s]", "").trim();
         if ("".equals(value)) {
             value = "0";
         }
@@ -43,6 +43,6 @@ public class EuroConverter extends StringToBigDecimalConverter {
     @Override
     public String convertToPresentation(BigDecimal value,
             ValueContext context) {
-        return super.convertToPresentation(value, context) + " €";
+        return super.convertToPresentation(value, context) + " $";
     }
 }

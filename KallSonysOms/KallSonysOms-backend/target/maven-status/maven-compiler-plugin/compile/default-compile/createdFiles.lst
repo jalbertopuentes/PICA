@@ -8,6 +8,7 @@ co\com\kallsonys\oms\backend\entity\Categoria_.class
 co\com\kallsonys\oms\backend\data\Availability.class
 co\com\kallsonys\oms\backend\entity\Producto.class
 co\com\kallsonys\oms\backend\mock\MockDataGenerator.class
+co\com\kallsonys\oms\backend\dao\FabricanteDao.class
 co\com\kallsonys\oms\backend\mock\MockDataService.class
 co\com\kallsonys\oms\backend\data\Product.class
 co\com\kallsonys\oms\backend\DataService.class

@@ -67,4 +67,9 @@ public class Fabricante implements Serializable {
 		return producto;
 	}
 
+	@Override
+	public String toString() {
+		return getFabricante();
+	}
+
 }

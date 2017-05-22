@@ -66,5 +66,10 @@ public class Categoria implements Serializable {
 
 		return producto;
 	}
+	
+	 @Override
+	    public String toString() {
+	        return getNombre();
+	    }
 
 }

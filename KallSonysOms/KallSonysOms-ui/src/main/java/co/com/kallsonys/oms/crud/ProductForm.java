@@ -3,11 +3,9 @@ package co.com.kallsonys.oms.crud;
 import java.lang.reflect.InvocationTargetException;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.Collection;
 import java.util.Locale;
 
-import co.com.kallsonys.oms.backend.data.Availability;
-import co.com.kallsonys.oms.backend.data.Category;
+import co.com.kallsonys.oms.backend.DataService;
 import co.com.kallsonys.oms.backend.data.Product;
 import co.com.kallsonys.oms.samples.AttributeExtension;
 
@@ -27,14 +25,23 @@ import com.vaadin.server.Page;
  */
 public class ProductForm extends ProductFormDesign {
 
-    private SampleCrudLogic viewLogic;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 445638136881694326L;
+	private SampleCrudLogic viewLogic;
     private Binder<Product> binder;
     private Product currentProduct;
 
     private static class StockPriceConverter extends StringToIntegerConverter {
 
-        public StockPriceConverter() {
-            super("Could not convert value to " + Integer.class.getName());
+        /**
+		 * 
+		 */
+		private static final long serialVersionUID = -1870901230628439365L;
+
+		public StockPriceConverter() {
+            super("No se puede comvertir valor a " + Integer.class.getName());
         }
 
         @Override
@@ -71,17 +78,20 @@ public class ProductForm extends ProductFormDesign {
         stockFieldExtension.extend(stockCount);
         stockFieldExtension.setAttribute("type", "number");
 
-        availability.setItems(Availability.values());
-        availability.setEmptySelectionAllowed(false);
-
+//        availability.setItems(Availability.values());
+//       	availability.setEmptySelectionAllowed(false);
+        categoria.setItems(DataService.get().getCategorias());
+        categoria.setEmptySelectionAllowed(false);
+        fabricante.setItems(DataService.get().consultarTodosLosFabricantes());
+        fabricante.setEmptySelectionAllowed(false);
+       
         binder = new BeanValidationBinder<>(Product.class);
-        binder.forField(price).withConverter(new EuroConverter())
-                .bind("price");
-        binder.forField(stockCount).withConverter(new StockPriceConverter())
-                .bind("stockCount");
+        binder.forField(price).withConverter(new EuroConverter()).bind("price");
+        binder.forField(valorDescuento).withConverter(new EuroConverter()).bind("valorDescuento");
+        binder.forField(stockCount).withConverter(new StockPriceConverter()).bind("stockCount");
 
-        category.setItemCaptionGenerator(Category::getName);
-        binder.forField(category).bind("category");
+//        category.setItemCaptionGenerator(Category::getName);
+//        binder.forField(category).bind("category");
         binder.bindInstanceFields(this);
 
         // enable/disable save button while editing
@@ -111,10 +121,10 @@ public class ProductForm extends ProductFormDesign {
         });
     }
 
-    public void setCategories(Collection<Category> categories) {
-        category.setItems(categories);
-    }
-
+//    public void setCategories(Collection<Category> categories) {
+//        category.setItems(categories);
+//    }
+    
     public void editProduct(Product product) {
         if (product == null) {
             product = new Product();

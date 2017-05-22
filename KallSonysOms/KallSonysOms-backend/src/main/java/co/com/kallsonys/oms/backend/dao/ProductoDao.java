@@ -34,13 +34,28 @@ public class ProductoDao {
 			entitymanager.getTransaction().begin();
 			Producto producto = entitymanager.find(Producto.class, p.getIdProducto());
 			producto.setCantidad(p.getCantidad());
-			Categoria categoria = new Categoria();
-			categoria.setIdCategoria(p.getCategoria().getIdCategoria());
-			producto.setCategoria(categoria);
+			producto.setCategoria(p.getCategoria());
+			producto.setFabricante(p.getFabricante());
+			producto.setDescripcion(p.getDescripcion());
+			producto.setValorDescuento(p.getValorDescuento());
 			producto.setCodigo(p.getCodigo());
 			producto.setNombre(p.getNombre());
 			producto.setUrlImagen(p.getUrlImagen());
 			producto.setValor(p.getValor());
+			entitymanager.getTransaction().commit();
+		}catch( Exception e ){
+			e.printStackTrace();
+		}
+		finally{
+			entitymanager.close();
+	    }
+	}
+	
+	public void crearProducto( Producto p ){
+		EntityManager entitymanager = emfactory.createEntityManager( );
+		try{
+			entitymanager.getTransaction().begin();
+			entitymanager.persist(p);
 			entitymanager.getTransaction().commit();
 		}catch( Exception e ){
 			e.printStackTrace();

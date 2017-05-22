@@ -9,24 +9,66 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import co.com.kallsonys.oms.backend.entity.Categoria;
+import co.com.kallsonys.oms.backend.entity.Fabricante;
 
 public class Product implements Serializable {
 
-    @NotNull
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4101589436634049432L;
+	@NotNull
     private int id = -1;
     @NotNull
     @Size(min = 2, message = "El nombre del producto debe tener al menos dos palabras")
     private String productName = "";
+    @NotNull
     @Min(0)
     private BigDecimal price = BigDecimal.ZERO;
+    @NotNull
     private Set<Category> category;
+    @NotNull
     @Min(value = 0, message = "No se pueden ingresar datos negativos en el disponible")
     private int stockCount = 0;
     @NotNull
     private Availability availability = Availability.COMING;
+    @NotNull
     private String codigo;
+    @NotNull
     private String urlImagen;
+    @NotNull
     private Categoria categoria;
+    @NotNull
+    @Min(0)
+    private BigDecimal valorDescuento = BigDecimal.ZERO;
+    @NotNull
+    private Fabricante fabricante;
+    
+    public String getDescripcion() {
+		return descripcion;
+	}
+
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
+
+	private String descripcion;
+
+	public Fabricante getFabricante() {
+		return fabricante;
+	}
+
+	public void setFabricante(Fabricante fabricante) {
+		this.fabricante = fabricante;
+	}
+
+	public BigDecimal getValorDescuento() {
+		return valorDescuento;
+	}
+
+	public void setValorDescuento(BigDecimal valorDescuento) {
+		this.valorDescuento = valorDescuento;
+	}
 
 	public Categoria getCategoria() {
 		return categoria;
