@@ -7,6 +7,9 @@
         <dependent-module archiveName="KallSonysOms-backend-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KallSonysOms-backend/KallSonysOms-backend">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="KallSonysOms-backend-oracle-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KallSonysOms-backend-oracle/KallSonysOms-backend-oracle">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="KallSonysOms-widgetset-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KallSonysOms-widgetset/KallSonysOms-widgetset">
             <dependency-type>uses</dependency-type>
         </dependent-module>

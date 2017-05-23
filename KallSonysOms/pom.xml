@@ -131,5 +131,6 @@
     <module>KallSonysOms-backend</module>
     <module>KallSonysOms-ui</module>
     <module>KallSonysOms-production</module>
+    <module>KallSonysOms-backend-oracle</module>
   </modules>
 </project>

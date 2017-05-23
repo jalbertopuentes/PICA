@@ -2,7 +2,8 @@ package co.com.kallsonys.oms.main;
 
 import co.com.kallsonys.oms.MyUI;
 import co.com.kallsonys.oms.about.AboutView;
-import co.com.kallsonys.oms.crud.SampleCrudView;
+import co.com.kallsonys.oms.crud.campana.CampanaView;
+import co.com.kallsonys.oms.crud.productos.SampleCrudView;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
@@ -31,7 +32,10 @@ public class MainScreen extends HorizontalLayout {
         navigator.setErrorView(ErrorView.class);
         menu = new Menu(navigator);
         menu.addView(new SampleCrudView(), SampleCrudView.VIEW_NAME,
-                SampleCrudView.VIEW_NAME, VaadinIcons.EDIT);
+        		SampleCrudView.VIEW_NAME, VaadinIcons.EDIT);
+        menu.addView(new CampanaView(), CampanaView.VIEW_NAME, CampanaView.VIEW_NAME,
+                VaadinIcons.EDIT);
+        
         menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
                 VaadinIcons.INFO_CIRCLE);
 
