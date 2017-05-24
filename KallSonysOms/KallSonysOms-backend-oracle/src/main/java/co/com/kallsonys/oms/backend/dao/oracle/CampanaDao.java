@@ -28,4 +28,25 @@ public class CampanaDao {
 		return campanas;
 	}
 	
+	public  void actualizarCampanas( Campana c ){
+		EntityManager entitymanager = emfactory.createEntityManager( );
+		try{
+			entitymanager.getTransaction().begin();
+			Campana campana = entitymanager.find(Campana.class, c.getIdcampana());
+			
+			campana.setDescripcion(c.getDescripcion());
+			campana.setFechafinal(c.getFechafinal());
+			campana.setFechainicial(c.getFechainicial());
+			campana.setSubtitulocampana(c.getSubtitulocampana());
+			campana.setTitulocampana(c.getTitulocampana());
+			campana.setUrlimagen(c.getUrlimagen());
+			entitymanager.getTransaction().commit();
+		}catch( Exception e ){
+			e.printStackTrace();
+		}
+		finally{
+			entitymanager.close();
+	    }
+	}
+	
 }

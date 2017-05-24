@@ -83,6 +83,12 @@ public class CampanaView extends VerticalLayout implements View{
 		setCaption("URL Imagen")
 		.setEditorComponent(urlImagenEditor, Campana::setUrlimagen)
 		.setExpandRatio(2);
+		
+		TextField descripcion = new TextField();
+		grid.addColumn(Campana::getDescripcion).
+		setCaption("Descripcion")
+		.setEditorComponent(descripcion, Campana::setDescripcion)
+		.setExpandRatio(2);
 
 		Binder<Campana> binder = new Binder<>();
 
@@ -120,18 +126,12 @@ public class CampanaView extends VerticalLayout implements View{
 		grid.getEditor().setCancelCaption("Cancelar");
 
 		grid.getEditor().addSaveListener(e -> {
-			Campana bean = e.getBean();
-			test(bean);
+			Campana c = e.getBean();
+			OracleDataService.get().actualizarCampanas(c);
 		});
 
 		grid.getEditor().setEnabled(true);
 		addComponent(filterTextField);
 		addComponent(grid);
-
 	}
-
-	private void test(Campana bean){
-		int a =0;
-	}
-
 }
