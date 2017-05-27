@@ -2,6 +2,7 @@ package co.com.kallsonys.oms.main;
 
 import co.com.kallsonys.oms.MyUI;
 import co.com.kallsonys.oms.about.AboutView;
+import co.com.kallsonys.oms.categoria.CategoriaView;
 import co.com.kallsonys.oms.crud.campana.CampanaView;
 import co.com.kallsonys.oms.crud.cliente.ClienteView;
 import co.com.kallsonys.oms.crud.productos.SampleCrudView;
@@ -37,6 +38,8 @@ public class MainScreen extends HorizontalLayout {
 		menu.addView(new CampanaView(), CampanaView.VIEW_NAME, CampanaView.VIEW_NAME,
 				VaadinIcons.EDIT);
 		menu.addView(new ClienteView(), ClienteView.VIEW_NAME, ClienteView.VIEW_NAME,
+				VaadinIcons.EDIT);
+		menu.addView(new CategoriaView(), CategoriaView.VIEW_NAME, CategoriaView.VIEW_NAME, 
 				VaadinIcons.EDIT);
 
 		menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,

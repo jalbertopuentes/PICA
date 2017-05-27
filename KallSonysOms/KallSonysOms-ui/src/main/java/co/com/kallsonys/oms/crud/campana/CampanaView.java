@@ -2,9 +2,7 @@ package co.com.kallsonys.oms.crud.campana;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
 import java.util.Collection;
-import java.util.Date;
 import java.util.Locale;
 
 import com.vaadin.data.Binder;
@@ -32,9 +30,11 @@ public class CampanaView extends VerticalLayout implements View{
 	private static final long serialVersionUID = 2414122404959623813L;
 
 	public static final String VIEW_NAME = "Campañas";
+	
 
 	public CampanaView(){
-		generarTablaFiltro();
+		
+		addComponent(generarCrud());
 
 	}
 
@@ -42,8 +42,8 @@ public class CampanaView extends VerticalLayout implements View{
 	public void enter(ViewChangeEvent event) {
 
 	}
-
-	private void generarTablaFiltro(){
+	
+	private VerticalLayout generarCrud(){
 
 		Grid<Campana> grid = new Grid<>();
 		grid.setCaption("Campañas");
@@ -131,7 +131,12 @@ public class CampanaView extends VerticalLayout implements View{
 		});
 
 		grid.getEditor().setEnabled(true);
-		addComponent(filterTextField);
-		addComponent(grid);
+		
+		VerticalLayout vL = new VerticalLayout();
+		vL.setWidth("100%");
+		vL.setResponsive(true);
+		vL.addComponent(filterTextField);
+		vL.addComponent(grid);
+		return vL;
 	}
 }

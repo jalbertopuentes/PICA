@@ -10,6 +10,9 @@
         <dependent-module archiveName="KallSonysOms-backend-oracle-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KallSonysOms-backend-oracle/KallSonysOms-backend-oracle">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="KallSonysOms-bakend-clientService-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KallSonysOms-bakend-clientService/KallSonysOms-bakend-clientService">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <dependent-module archiveName="KallSonysOms-widgetset-1.0-SNAPSHOT.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/KallSonysOms-widgetset/KallSonysOms-widgetset">
             <dependency-type>uses</dependency-type>
         </dependent-module>
