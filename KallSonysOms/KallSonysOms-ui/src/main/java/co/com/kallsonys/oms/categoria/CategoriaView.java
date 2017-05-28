@@ -5,7 +5,6 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
@@ -14,8 +13,6 @@ import javax.xml.datatype.XMLGregorianCalendar;
 import org.datacontract.schemas._2004._07.productoentities.ArrayOfCategoriaEntity;
 import org.datacontract.schemas._2004._07.productoentities.CategoriaEntity;
 
-import com.vaadin.data.Binder;
-import com.vaadin.data.converter.LocalDateToDateConverter;
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
@@ -32,7 +29,6 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Notification.Type;
 
 import co.com.kallsonys.backend.services.impl.ServicioProductoImpl;
-import co.com.kallsonys.oms.dto.FiltroFechasDto;
 
 public class CategoriaView extends VerticalLayout implements View {
 
@@ -47,7 +43,6 @@ public class CategoriaView extends VerticalLayout implements View {
 	private ServicioProductoImpl servicioProductoImpl= new ServicioProductoImpl();
 	private Grid<CategoriaEntity> grid;
 	private ListDataProvider<CategoriaEntity> dataProvider;
-	private int i;
 
 	public CategoriaView(){
 
@@ -64,8 +59,6 @@ public class CategoriaView extends VerticalLayout implements View {
 	private VerticalLayout generarSeccionBusqueda(){
 		HorizontalLayout hl = new HorizontalLayout();
 		hl.setSpacing(true);
-
-		Binder<FiltroFechasDto> binder = new Binder<>();
 
 		DateField fechaInicial = new DateField("Fecha Inicial");
 		LocalDate tmp = LocalDate.now();

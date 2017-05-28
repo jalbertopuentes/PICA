@@ -16,8 +16,8 @@ import co.com.kallsonys.backend.services.impl.ServicioProductoImpl;
 public class Test {
 	
 	public static void main(String[] args) {
-		//buscarVendidosFecha();
-		buscarCategoriasFecha();
+		buscarVendidosFecha();
+//		buscarCategoriasFecha();
 		
 	}
 	
@@ -50,7 +50,7 @@ public class Test {
 		GregorianCalendar c = new GregorianCalendar();
 		c.set(2017, 4, 20);
 		GregorianCalendar d = new GregorianCalendar();
-		d.set(2017, 4, 25);
+		d.set(2017, 4, 30);
 		try {
 			XMLGregorianCalendar fechaInicio = DatatypeFactory.newInstance().newXMLGregorianCalendar(c);
 			XMLGregorianCalendar fechaFin = DatatypeFactory.newInstance().newXMLGregorianCalendar(d);
