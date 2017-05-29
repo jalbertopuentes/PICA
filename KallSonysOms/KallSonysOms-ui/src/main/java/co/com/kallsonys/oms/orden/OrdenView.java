@@ -151,7 +151,7 @@ public class OrdenView extends VerticalLayout implements View {
 		Collection<Orden> ordenes = OracleDataService.get().getOrdenesParaCancelar();
 		dataProvider = DataProvider.ofCollection(ordenes);
 		grid.setDataProvider(dataProvider);
-
+		
 		TextField filterTextField = new TextField("Número orden");
 		filterTextField.setPlaceholder("ingrese número de orden");
 		filterTextField.addValueChangeListener(event -> {

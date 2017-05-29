@@ -3,6 +3,7 @@ package co.com.kallsonys.oms.backend.entity.oracle;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -63,6 +64,10 @@ public class Orden implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="IDESTADO")
 	private Estadoenvio estadoenvio;
+	
+	//bi-directional many-to-one association to Orden
+	@OneToMany(mappedBy="orden")
+	private List<Ordendetalle> ordenDetalles;
 
 	public Orden() {
 	}
@@ -185,6 +190,14 @@ public class Orden implements Serializable {
 
 	public void setEstadoenvio(Estadoenvio estadoenvio) {
 		this.estadoenvio = estadoenvio;
+	}
+
+	public List<Ordendetalle> getOrdenDetalles() {
+		return ordenDetalles;
+	}
+
+	public void setOrdenDetalles(List<Ordendetalle> ordenDetalles) {
+		this.ordenDetalles = ordenDetalles;
 	}
 
 }

@@ -13,6 +13,7 @@
 		<class>co.com.kallsonys.oms.backend.entity.oracle.Orden</class>
 		<class>co.com.kallsonys.oms.backend.entity.oracle.Tarjeta</class>
 		<class>co.com.kallsonys.oms.backend.entity.oracle.TarjetaPK</class>
+		<class>co.com.kallsonys.oms.backend.entity.oracle.Ordendetalle</class>
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:oracle:thin:@localhost:1521:xe"/>
 			<property name="javax.persistence.jdbc.user" value="ks"/>
