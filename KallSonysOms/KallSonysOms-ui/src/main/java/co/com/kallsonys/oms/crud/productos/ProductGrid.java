@@ -5,9 +5,11 @@ import java.util.Comparator;
 import java.util.stream.Collectors;
 
 import com.vaadin.ui.Grid;
+import com.vaadin.ui.renderers.HtmlRenderer;
 
 import co.com.kallsonys.oms.backend.data.Product;
 import co.com.kallsonys.oms.backend.entity.Categoria;
+import co.com.kallsonys.oms.util.EUrlB2c;
 
 /**
  * Grid of products, handling the visual presentation and filtering of a set of
@@ -24,7 +26,9 @@ public class ProductGrid extends Grid<Product> {
 	public ProductGrid() {
 		setSizeFull();
 
-
+		addColumn(produc ->
+	      "<a href='" +EUrlB2c.URL_B2C.getValue()+produc.getId() + "' target='_blank'>Ver</a>",
+	      new HtmlRenderer());
 		addColumn(Product::getCodigo).setCaption("Código");
 		addColumn(Product::getProductName).setCaption("Nombre del producto");
 

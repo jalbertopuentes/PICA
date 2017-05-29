@@ -16,6 +16,7 @@ public class Cliente implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false)
 	private long idcliente;
 
 	private String apellido;

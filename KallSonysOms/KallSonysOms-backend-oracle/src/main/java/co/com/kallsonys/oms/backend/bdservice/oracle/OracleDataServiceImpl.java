@@ -49,4 +49,9 @@ public class OracleDataServiceImpl extends OracleDataService {
 		clienteDao.actualizar(c);
 	}
 	
+	@Override
+	public void eliminarCampana( Campana c ){
+		campanaDao.eliminarCampana(c);
+	}
+	
 }

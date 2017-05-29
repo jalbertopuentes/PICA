@@ -17,6 +17,7 @@ import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.renderers.DateRenderer;
 
 import co.com.kallsonys.oms.backend.bdservice.oracle.OracleDataService;
@@ -30,10 +31,10 @@ public class CampanaView extends VerticalLayout implements View{
 	private static final long serialVersionUID = 2414122404959623813L;
 
 	public static final String VIEW_NAME = "Campañas";
-	
+
 
 	public CampanaView(){
-		
+
 		addComponent(generarCrud());
 
 	}
@@ -42,7 +43,7 @@ public class CampanaView extends VerticalLayout implements View{
 	public void enter(ViewChangeEvent event) {
 
 	}
-	
+
 	private VerticalLayout generarCrud(){
 
 		Grid<Campana> grid = new Grid<>();
@@ -83,7 +84,7 @@ public class CampanaView extends VerticalLayout implements View{
 		setCaption("URL Imagen")
 		.setEditorComponent(urlImagenEditor, Campana::setUrlimagen)
 		.setExpandRatio(2);
-		
+
 		TextField descripcion = new TextField();
 		grid.addColumn(Campana::getDescripcion).
 		setCaption("Descripcion")
@@ -97,8 +98,8 @@ public class CampanaView extends VerticalLayout implements View{
 		String formatString = dateFormat.toPattern();
 		fechaInicialField.setDateFormat(formatString);
 		LocalDateToDateConverter dateConverter = new LocalDateToDateConverter();
-//		binder.bind(Date.from(fechaInicialField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Campana::getFechainicial,Campana::setFechainicial);
-		
+		//		binder.bind(Date.from(fechaInicialField.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()), Campana::getFechainicial,Campana::setFechainicial);
+
 		grid.addColumn(
 				Campana::getFechainicial)
 		.setCaption("Fecha de Inicio")
@@ -108,10 +109,10 @@ public class CampanaView extends VerticalLayout implements View{
 				.withConverter(dateConverter)
 				.bind(Campana::getFechainicial, Campana::setFechainicial));
 
-		
+
 		DateField fechaFinalField = new DateField();
 		fechaFinalField.setDateFormat(formatString);
-		
+
 		grid.addColumn(
 				Campana::getFechafinal)
 		.setCaption("Fecha final")
@@ -139,4 +140,5 @@ public class CampanaView extends VerticalLayout implements View{
 		vL.addComponent(grid);
 		return vL;
 	}
+
 }

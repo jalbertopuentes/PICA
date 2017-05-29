@@ -3,6 +3,7 @@ package co.com.kallsonys.oms.backend.entity.oracle;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -31,6 +32,10 @@ public class Campana implements Serializable {
 	private String titulocampana;
 
 	private String urlimagen;
+
+	//bi-directional many-to-one association to Productoxcampana
+	@OneToMany(mappedBy="campana",cascade = CascadeType.ALL,orphanRemoval=true)
+	private List<Productoxcampana> productoxcampanas;
 
 	public Campana() {
 	}
@@ -89,6 +94,28 @@ public class Campana implements Serializable {
 
 	public void setUrlimagen(String urlimagen) {
 		this.urlimagen = urlimagen;
+	}
+
+	public List<Productoxcampana> getProductoxcampanas() {
+		return this.productoxcampanas;
+	}
+
+	public void setProductoxcampanas(List<Productoxcampana> productoxcampanas) {
+		this.productoxcampanas = productoxcampanas;
+	}
+
+	public Productoxcampana addProductoxcampana(Productoxcampana productoxcampana) {
+		getProductoxcampanas().add(productoxcampana);
+		productoxcampana.setCampana(this);
+
+		return productoxcampana;
+	}
+
+	public Productoxcampana removeProductoxcampana(Productoxcampana productoxcampana) {
+		getProductoxcampanas().remove(productoxcampana);
+		productoxcampana.setCampana(null);
+
+		return productoxcampana;
 	}
 
 }

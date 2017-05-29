@@ -3,6 +3,7 @@ package co.com.kallsonys.oms.crud.productos;
 import co.com.kallsonys.backend.services.impl.ServicioProductoImpl;
 import co.com.kallsonys.oms.backend.data.Product;
 import co.com.kallsonys.oms.samples.ResetButtonForTextField;
+import co.com.kallsonys.oms.util.EUrlB2c;
 
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
@@ -106,7 +107,7 @@ public class SampleCrudView extends CssLayout implements View {
 			gridProductosMasVendidos.setDataProvider(dataProviderProductosMasVendidos);
 			
 			gridProductosMasVendidos.addColumn(producto ->
-		      "<a href='" + "http://localhost:49645/Product/SingleProduct?IdProduct=#"+producto.getIdProducto() + "' target='_blank'>Ver</a>",
+		      "<a href='" +EUrlB2c.URL_B2C.getValue()+producto.getIdProducto() + "' target='_blank'>Ver</a>",
 		      new HtmlRenderer());
 			
 			gridProductosMasVendidos.addColumn(ProductoEntity::getCodigo).setCaption("Código");

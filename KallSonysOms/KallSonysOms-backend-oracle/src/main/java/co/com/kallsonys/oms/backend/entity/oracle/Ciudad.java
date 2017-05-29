@@ -22,7 +22,7 @@ public class Ciudad implements Serializable {
 	//bi-directional many-to-one association to Pais
 	@ManyToOne
 	@JoinColumn(name="IDPAIS")
-	private Pais pai;
+	private Pais pais;
 
 	//bi-directional many-to-one association to Cliente
 	@OneToMany(mappedBy="ciudad")
@@ -47,12 +47,12 @@ public class Ciudad implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public Pais getPai() {
-		return this.pai;
+	public Pais getPais() {
+		return this.pais;
 	}
 
-	public void setPai(Pais pai) {
-		this.pai = pai;
+	public void setPais(Pais pais) {
+		this.pais = pais;
 	}
 
 	public List<Cliente> getClientes() {

@@ -6,6 +6,7 @@ import co.com.kallsonys.oms.categoria.CategoriaView;
 import co.com.kallsonys.oms.crud.campana.CampanaView;
 import co.com.kallsonys.oms.crud.cliente.ClienteView;
 import co.com.kallsonys.oms.crud.productos.SampleCrudView;
+import co.com.kallsonys.oms.orden.OrdenView;
 
 import com.vaadin.icons.VaadinIcons;
 import com.vaadin.navigator.Navigator;
@@ -40,6 +41,8 @@ public class MainScreen extends HorizontalLayout {
 		menu.addView(new ClienteView(), ClienteView.VIEW_NAME, ClienteView.VIEW_NAME,
 				VaadinIcons.EDIT);
 		menu.addView(new CategoriaView(), CategoriaView.VIEW_NAME, CategoriaView.VIEW_NAME, 
+				VaadinIcons.EDIT);
+		menu.addView(new OrdenView(), OrdenView.VIEW_NAME, OrdenView.VIEW_NAME, 
 				VaadinIcons.EDIT);
 
 		menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,

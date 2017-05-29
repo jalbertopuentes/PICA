@@ -16,12 +16,13 @@ public class Pais implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false)
 	private long idpais;
 
 	private String nombre;
 
 	//bi-directional many-to-one association to Ciudad
-	@OneToMany(mappedBy="pai")
+	@OneToMany(mappedBy="pais")
 	private List<Ciudad> ciudads;
 
 	public Pais() {
@@ -53,14 +54,14 @@ public class Pais implements Serializable {
 
 	public Ciudad addCiudad(Ciudad ciudad) {
 		getCiudads().add(ciudad);
-		ciudad.setPai(this);
+		ciudad.setPais(this);
 
 		return ciudad;
 	}
 
 	public Ciudad removeCiudad(Ciudad ciudad) {
 		getCiudads().remove(ciudad);
-		ciudad.setPai(null);
+		ciudad.setPais(null);
 
 		return ciudad;
 	}

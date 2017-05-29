@@ -24,5 +24,7 @@ public abstract class OracleDataService implements Serializable {
 	public abstract List<Cliente> getAllClientes();
 	
 	public  abstract void actualizarCliente( Cliente c );
+	
+	public abstract void eliminarCampana(Campana c);
 
 }

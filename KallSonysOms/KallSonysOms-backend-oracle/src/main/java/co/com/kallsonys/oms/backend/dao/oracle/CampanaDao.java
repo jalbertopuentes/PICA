@@ -49,4 +49,12 @@ public class CampanaDao {
 	    }
 	}
 	
+	public void eliminarCampana( Campana c ){
+		EntityManager entitymanager = emfactory.createEntityManager( );
+		entitymanager.getTransaction().begin();
+		Campana campana = entitymanager.find(Campana.class, c.getIdcampana());
+		entitymanager.remove(campana);
+		entitymanager.getTransaction().commit();
+	}
+	
 }
