@@ -16,6 +16,7 @@ public class Tipodocumento implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false)
 	private long idtipodocumento;
 
 	private String tipodocumento;

@@ -5,6 +5,8 @@ import java.util.List;
 
 import co.com.kallsonys.oms.backend.entity.oracle.Campana;
 import co.com.kallsonys.oms.backend.entity.oracle.Cliente;
+import co.com.kallsonys.oms.backend.entity.oracle.Orden;
+import co.com.kallsonys.oms.backend.entity.oracle.Tarjeta;
 
 public abstract class OracleDataService implements Serializable {
 
@@ -26,5 +28,11 @@ public abstract class OracleDataService implements Serializable {
 	public  abstract void actualizarCliente( Cliente c );
 	
 	public abstract void eliminarCampana(Campana c);
+	
+	public abstract List<Orden> getOrdenesParaCancelar();
+	
+	public abstract Tarjeta getTarjetaXId( long idTarjeta );
+	
+	public abstract void cancelarOrden( Orden o );
 
 }

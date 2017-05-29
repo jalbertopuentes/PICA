@@ -121,6 +121,8 @@ public class CampanaView extends VerticalLayout implements View{
 				.forField(fechaFinalField)
 				.withConverter(dateConverter)
 				.bind(Campana::getFechafinal, Campana::setFechafinal));
+		
+		
 
 
 		grid.getEditor().setSaveCaption("Guardar");
@@ -132,6 +134,22 @@ public class CampanaView extends VerticalLayout implements View{
 		});
 
 		grid.getEditor().setEnabled(true);
+		grid.addColumn(person -> "Elimnar",
+				new ButtonRenderer<Object>(clickEvent -> {
+					campanas.remove(clickEvent.getItem());
+					OracleDataService.get().eliminarCampana( (Campana) clickEvent.getItem());
+					ListDataProvider<Campana> dataProviderTmp = DataProvider.ofCollection(campanas);
+					filterTextField.addValueChangeListener(event -> {
+						dataProviderTmp.setFilter(Campana::getTitulocampana, name -> {
+							String nameLower = name == null ? ""
+									: name.toLowerCase(Locale.ENGLISH);
+							String filterLower = event.getValue()
+									.toLowerCase(Locale.ENGLISH);
+							return nameLower.contains(filterLower);
+						});
+					});
+					grid.setDataProvider(dataProviderTmp);
+				}));
 		
 		VerticalLayout vL = new VerticalLayout();
 		vL.setWidth("100%");

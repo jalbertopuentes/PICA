@@ -28,6 +28,10 @@ public class Ciudad implements Serializable {
 	@OneToMany(mappedBy="ciudad")
 	private List<Cliente> clientes;
 
+	//bi-directional many-to-one association to Orden
+	@OneToMany(mappedBy="ciudad")
+	private List<Orden> ordens;
+
 	public Ciudad() {
 	}
 
@@ -75,6 +79,28 @@ public class Ciudad implements Serializable {
 		cliente.setCiudad(null);
 
 		return cliente;
+	}
+
+	public List<Orden> getOrdens() {
+		return this.ordens;
+	}
+
+	public void setOrdens(List<Orden> ordens) {
+		this.ordens = ordens;
+	}
+
+	public Orden addOrden(Orden orden) {
+		getOrdens().add(orden);
+		orden.setCiudad(this);
+
+		return orden;
+	}
+
+	public Orden removeOrden(Orden orden) {
+		getOrdens().remove(orden);
+		orden.setCiudad(null);
+
+		return orden;
 	}
 
 }

@@ -16,6 +16,7 @@ public class Tipocliente implements Serializable {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
+	@Column(updatable=false)
 	private long idtipocliente;
 
 	private String tipo;

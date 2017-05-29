@@ -54,12 +54,11 @@ public class ClienteView extends VerticalLayout implements View{
 
 		TextField filterTextField = new TextField("Numero de documento");
 		filterTextField.setPlaceholder("ingrese numero de documento");
+		
 		filterTextField.addValueChangeListener(event -> {
 			dataProvider.setFilter(Cliente::getNumerodocumento , name -> {
-				String nameLower = name == null ? ""
-						: name.toLowerCase(Locale.ENGLISH);
-				String filterLower = event.getValue()
-						.toLowerCase(Locale.ENGLISH);
+				String nameLower = name == null ? "": name.toLowerCase(Locale.ENGLISH);
+				String filterLower = event.getValue().toLowerCase(Locale.ENGLISH);
 				return nameLower.contains(filterLower);
 			});
 		});

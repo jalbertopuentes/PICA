@@ -3,6 +3,7 @@ package co.com.kallsonys.oms.backend.entity.oracle;
 import java.io.Serializable;
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 
 /**
@@ -55,6 +56,10 @@ public class Cliente implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="IDTIPODOCUMENTO")
 	private Tipodocumento tipodocumento;
+
+	//bi-directional many-to-one association to Orden
+	@OneToMany(mappedBy="cliente")
+	private List<Orden> ordens;
 
 	public Cliente() {
 	}
@@ -161,6 +166,28 @@ public class Cliente implements Serializable {
 
 	public void setTipodocumento(Tipodocumento tipodocumento) {
 		this.tipodocumento = tipodocumento;
+	}
+
+	public List<Orden> getOrdens() {
+		return this.ordens;
+	}
+
+	public void setOrdens(List<Orden> ordens) {
+		this.ordens = ordens;
+	}
+
+	public Orden addOrden(Orden orden) {
+		getOrdens().add(orden);
+		orden.setCliente(this);
+
+		return orden;
+	}
+
+	public Orden removeOrden(Orden orden) {
+		getOrdens().remove(orden);
+		orden.setCliente(null);
+
+		return orden;
 	}
 
 }

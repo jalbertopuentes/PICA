@@ -11,9 +11,9 @@ import co.com.kallsonys.oms.backend.entity.oracle.Campana;
 import co.com.kallsonys.oms.backend.entity.oracle.Cliente;
 
 public class ClienteDao {
-	
-EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("KallSonysOms-backend-oracle");
-	
+
+	EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("KallSonysOms-backend-oracle");
+
 	public  List<Cliente> getAll(){
 		List<Cliente> clientes = null;
 		try{
@@ -27,13 +27,13 @@ EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("KallSon
 
 		return clientes;
 	}
-	
+
 	public  void actualizar( Cliente c ){
 		EntityManager entitymanager = emfactory.createEntityManager( );
 		try{
 			entitymanager.getTransaction().begin();
 			Cliente cliente = entitymanager.find(Cliente.class, c.getIdcliente());
-			
+
 			cliente.setApellido(c.getApellido());
 			cliente.setCiudad(c.getCiudad());
 			cliente.setContrasena(c.getContrasena());
@@ -50,7 +50,7 @@ EntityManagerFactory emfactory = Persistence.createEntityManagerFactory("KallSon
 		}
 		finally{
 			entitymanager.close();
-	    }
+		}
 	}
 
 }
