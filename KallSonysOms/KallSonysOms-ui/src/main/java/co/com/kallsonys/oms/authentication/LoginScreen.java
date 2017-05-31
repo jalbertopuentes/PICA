@@ -67,7 +67,7 @@ public class LoginScreen extends CssLayout {
         loginForm.setSizeUndefined();
         loginForm.setMargin(false);
 
-        loginForm.addComponent(username = new TextField("Usuario", "admin"));
+        loginForm.addComponent(username = new TextField("Usuario"));
         username.setWidth(15, Unit.EM);
         loginForm.addComponent(password = new PasswordField("Contraseña"));
         password.setWidth(15, Unit.EM);
@@ -115,6 +115,8 @@ public class LoginScreen extends CssLayout {
     }
 
     private void login() {
+    	
+    	
         if (accessControl.signIn(username.getValue(), password.getValue())) {
             loginListener.loginSuccessful();
         } else {

@@ -3,6 +3,8 @@ package co.com.kallsonys.oms.authentication;
 import com.vaadin.server.VaadinRequest;
 import com.vaadin.server.VaadinService;
 
+import co.com.kallsonys.oms.backend.entity.oracle.Rol;
+
 /**
  * Class for retrieving and setting the name of the current user of the current
  * session (without using JAAS). All methods of this class require that a
@@ -12,6 +14,8 @@ import com.vaadin.server.VaadinService;
  * @see com.vaadin.server.VaadinService#getCurrentRequest()
  */
 public final class CurrentUser {
+	
+	private static Rol rol;
 
     /**
      * The attribute key used to store the username in the session.
@@ -64,4 +68,13 @@ public final class CurrentUser {
         }
         return request;
     }
+
+	public static Rol getRol() {
+		return rol;
+	}
+
+	public static void setRol(Rol rol) {
+		CurrentUser.rol = rol;
+	}
+
 }

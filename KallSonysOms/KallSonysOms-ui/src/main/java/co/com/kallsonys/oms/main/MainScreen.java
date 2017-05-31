@@ -2,6 +2,8 @@ package co.com.kallsonys.oms.main;
 
 import co.com.kallsonys.oms.MyUI;
 import co.com.kallsonys.oms.about.AboutView;
+import co.com.kallsonys.oms.authentication.CurrentUser;
+import co.com.kallsonys.oms.backend.entity.oracle.Rol;
 import co.com.kallsonys.oms.categoria.CategoriaView;
 import co.com.kallsonys.oms.crud.campana.CampanaView;
 import co.com.kallsonys.oms.crud.cliente.ClienteView;
@@ -31,19 +33,33 @@ public class MainScreen extends HorizontalLayout {
 		viewContainer.addStyleName("valo-content");
 		viewContainer.setSizeFull();
 
+		Rol rol = CurrentUser.getRol();
+
 		final Navigator navigator = new Navigator(ui, viewContainer);
 		navigator.setErrorView(ErrorView.class);
 		menu = new Menu(navigator);
-		menu.addView(new SampleCrudView(), SampleCrudView.VIEW_NAME,
-				SampleCrudView.VIEW_NAME, VaadinIcons.EDIT);
-		menu.addView(new CampanaView(), CampanaView.VIEW_NAME, CampanaView.VIEW_NAME,
-				VaadinIcons.EDIT);
-		menu.addView(new ClienteView(), ClienteView.VIEW_NAME, ClienteView.VIEW_NAME,
-				VaadinIcons.EDIT);
-		menu.addView(new CategoriaView(), CategoriaView.VIEW_NAME, CategoriaView.VIEW_NAME, 
-				VaadinIcons.EDIT);
-		menu.addView(new OrdenView(), OrdenView.VIEW_NAME, OrdenView.VIEW_NAME, 
-				VaadinIcons.EDIT);
+
+		if( rol.getNombre().toUpperCase().equals("Admin".toUpperCase()) ){
+			menu.addView(new SampleCrudView(), SampleCrudView.VIEW_NAME,
+					SampleCrudView.VIEW_NAME, VaadinIcons.EDIT);
+			menu.addView(new CampanaView(), CampanaView.VIEW_NAME, CampanaView.VIEW_NAME,
+					VaadinIcons.EDIT);
+			menu.addView(new ClienteView(), ClienteView.VIEW_NAME, ClienteView.VIEW_NAME,
+					VaadinIcons.EDIT);
+			menu.addView(new CategoriaView(), CategoriaView.VIEW_NAME, CategoriaView.VIEW_NAME, 
+					VaadinIcons.EDIT);
+			menu.addView(new OrdenView(), OrdenView.VIEW_NAME, OrdenView.VIEW_NAME, 
+					VaadinIcons.EDIT);
+		}else
+			if( rol.getNombre().toUpperCase().equals("orden".toUpperCase()) ){
+				menu.addView(new OrdenView(), OrdenView.VIEW_NAME, OrdenView.VIEW_NAME, 
+						VaadinIcons.EDIT);
+			}else
+				if( rol.getNombre().toUpperCase().equals("producto".toUpperCase()) ){
+					menu.addView(new SampleCrudView(), SampleCrudView.VIEW_NAME,
+							SampleCrudView.VIEW_NAME, VaadinIcons.EDIT);
+				}
+		
 
 		menu.addView(new AboutView(), AboutView.VIEW_NAME, AboutView.VIEW_NAME,
 				VaadinIcons.INFO_CIRCLE);

@@ -9,12 +9,14 @@ import co.com.kallsonys.oms.backend.dao.oracle.OrdenDao;
 import co.com.kallsonys.oms.backend.dao.oracle.OrdenDetalleDao;
 import co.com.kallsonys.oms.backend.dao.oracle.TarjetaDao;
 import co.com.kallsonys.oms.backend.dao.oracle.TipoClienteDao;
+import co.com.kallsonys.oms.backend.dao.oracle.UsuarioDao;
 import co.com.kallsonys.oms.backend.entity.oracle.Campana;
 import co.com.kallsonys.oms.backend.entity.oracle.Cliente;
 import co.com.kallsonys.oms.backend.entity.oracle.Orden;
 import co.com.kallsonys.oms.backend.entity.oracle.Ordendetalle;
 import co.com.kallsonys.oms.backend.entity.oracle.Tarjeta;
 import co.com.kallsonys.oms.backend.entity.oracle.Tipocliente;
+import co.com.kallsonys.oms.backend.entity.oracle.Usuario;
 
 public class OracleDataServiceImpl extends OracleDataService {
 
@@ -30,6 +32,7 @@ public class OracleDataServiceImpl extends OracleDataService {
 	private TarjetaDao tarjetaDao = new TarjetaDao();
 	private TipoClienteDao tipoClienteDao = new TipoClienteDao();
 	private OrdenDetalleDao ordenDetalleDao = new OrdenDetalleDao();
+	private UsuarioDao usuarioDao = new UsuarioDao();
 	
 	public synchronized static OracleDataServiceImpl getInstance() {
 		if (INSTANCE == null) {
@@ -73,8 +76,8 @@ public class OracleDataServiceImpl extends OracleDataService {
 	}
 	
 	@Override
-	public  Tarjeta getTarjetaXId( long idTarjeta ){
-		return tarjetaDao.getTarjetaXId(idTarjeta);
+	public  Tarjeta getTarjetaXId( long idTarjeta, long idCliente ){
+		return tarjetaDao.getTarjetaXId(idTarjeta, idCliente);
 	}
 	
 	@Override
@@ -96,6 +99,11 @@ public class OracleDataServiceImpl extends OracleDataService {
 			ordenes.add(od.getOrden());
 		}
 		return ordenes;
+	}
+	
+	@Override
+	public List<Usuario> getAllUsuarios(){
+		return usuarioDao.getAll();
 	}
 	
 }

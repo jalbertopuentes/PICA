@@ -235,7 +235,30 @@ public class SampleCrudView extends CssLayout implements View {
 	}
 
 	private VerticalLayout generarCrudProducto(){
+		
+		VerticalLayout vl = new VerticalLayout();
+		Button traerInfo = new Button( "Consultar Todo" );
 
+		traerInfo.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4488239168999571799L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				vl.addComponent(generarGridProductos());
+				traerInfo.setVisible(false);
+			}
+		});
+		
+		vl.addComponent(traerInfo);
+		return vl;
+	}
+	
+	private VerticalLayout generarGridProductos(){
+		VerticalLayout vl = new VerticalLayout();
 		HorizontalLayout topLayout = createTopBar();
 
 		grid = new ProductGrid();
@@ -254,7 +277,7 @@ public class SampleCrudView extends CssLayout implements View {
 		barAndGridLayout.setExpandRatio(grid, 1);
 		barAndGridLayout.setStyleName("crud-main-layout");
 
-		VerticalLayout vl = new VerticalLayout();
+		
 		vl.addComponent(barAndGridLayout);
 		vl.addComponent(form);
 

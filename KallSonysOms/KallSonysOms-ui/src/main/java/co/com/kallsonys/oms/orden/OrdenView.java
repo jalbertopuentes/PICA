@@ -61,7 +61,7 @@ public class OrdenView extends VerticalLayout implements View {
 	private Grid<Orden> gridCrud;
 	private ListDataProvider<Orden> dataProviderCrud;
 	private ServicioOrdenImpl servicioOrdenImpl = new ServicioOrdenImpl();
-	
+
 
 	private Grid<OrdenesCerradasEntity> gridOrdenesCerradasTotal;
 	private ListDataProvider<OrdenesCerradasEntity> dataProviderOrdenesCerradasTotal;
@@ -72,22 +72,21 @@ public class OrdenView extends VerticalLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-			removeAllComponents();
-			setSizeFull();
-			addStyleName("crud-view");
+		removeAllComponents();
+		setSizeFull();
+		addStyleName("crud-view");
 
-			TabSheet mainTab = new TabSheet();
-			mainTab.setHeight(100.0f, Unit.PERCENTAGE);
-			mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
-			mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+		TabSheet mainTab = new TabSheet();
+		mainTab.setHeight(100.0f, Unit.PERCENTAGE);
+		mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
+		mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
-			mainTab.addTab(generarCrudView(),"Crud Ordenes");
-			mainTab.addTab(generarTabOredenesCerradasTotalFacturado(),"Ordenes Cerradas-Total Facturado");
+		mainTab.addTab(generarCrudView(),"Crud Ordenes");
+		mainTab.addTab(generarTabOredenesCerradasTotalFacturado(),"Ordenes Cerradas-Total Facturado");
+		mainTab.addTab(generarTopOrdenesAbiertas(),"Top Ordenes Abiertas");
+		mainTab.addTab(generarRankingOrdenesCerradas(),"Top Ordenes Cerradas Mayor Ganancias");
 
-			//TODO: mejorar tiempos de respuesta!!
-			//		mainTab.addTab(generarTopOrdenesAbiertas(),"Top Ordenes Abiertas");
-			//		mainTab.addTab(generarRankingOrdenesCerradas(),"Top Ordenes Cerradas Mayor Ganancias");
-			addComponent(mainTab);
+		addComponent(mainTab);
 	}
 
 	private VerticalLayout generarTabOredenesCerradasTotalFacturado(){
@@ -203,6 +202,26 @@ public class OrdenView extends VerticalLayout implements View {
 
 	private VerticalLayout generarRankingOrdenesCerradas(){
 		VerticalLayout vl = new VerticalLayout();
+		Button traerInfo = new Button( "Consultar Todo" );
+
+		traerInfo.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4488239168999571799L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				vl.addComponent(generarGridOrdenesCerradas());
+				traerInfo.setVisible(false);
+			}
+		});
+		vl.addComponent(traerInfo);
+		return vl;
+	}
+	
+	private Grid<OrdenesCerradasXMesEntity> generarGridOrdenesCerradas(){
 		Grid<OrdenesCerradasXMesEntity> grid = new Grid<OrdenesCerradasXMesEntity>();
 		grid.setCaption("Número de ordenes cerradas y total facturado por mes");
 		grid.setWidth("100%");
@@ -227,16 +246,34 @@ public class OrdenView extends VerticalLayout implements View {
 		grid.addColumn(ocm->ocm.getValorFacturado())
 		.setCaption("Valor facturado")
 		.setExpandRatio(2);
-
-
-		vl.addComponent(grid);
-
-		return vl;
+		
+		return grid;
 	}
 
 	private VerticalLayout generarTopOrdenesAbiertas(){
 		VerticalLayout vl = new VerticalLayout();
 
+		Button traerInfo = new Button( "Consultar Todo" );
+
+		traerInfo.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4488239168999571799L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				vl.addComponent(generarGridOrdenesAbiertas());
+				traerInfo.setVisible(false);
+			}
+		});
+		
+		vl.addComponent(traerInfo);
+		return vl;
+	}
+
+	private Grid<OrdenesAbiertasEntity> generarGridOrdenesAbiertas(){
 		Grid<OrdenesAbiertasEntity> grid = new Grid<OrdenesAbiertasEntity>();
 		grid.setCaption("Ordenes que llevan más tiempo abiertas");
 		grid.setWidth("100%");
@@ -301,9 +338,7 @@ public class OrdenView extends VerticalLayout implements View {
 		grid.addColumn(oa->oa.getOrden().getAsesor())
 		.setCaption("Asesor")
 		.setExpandRatio(2);
-
-		vl.addComponent(grid);
-		return vl;
+		return grid;
 	}
 
 	private String xmlGregorianToString( OrdenesAbiertasEntity oe ){
@@ -326,7 +361,23 @@ public class OrdenView extends VerticalLayout implements View {
 
 	private VerticalLayout generarCrudView(){
 		VerticalLayout vl = new VerticalLayout();
-		vl.addComponent(generarGridDelCrud());
+		Button traerInfo = new Button( "Consultar Todo" );
+
+		traerInfo.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4488239168999571799L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				vl.addComponent(generarGridDelCrud());
+				traerInfo.setVisible(false);
+			}
+		});
+
+		vl.addComponent(traerInfo);
 		return vl;
 	}
 
@@ -390,11 +441,11 @@ public class OrdenView extends VerticalLayout implements View {
 				return false;
 			});
 		});
-		
+
 		HorizontalLayout hl= new HorizontalLayout();
 		hl.setSpacing(true);
 		hl.addComponent(filterTextField);
-		
+
 		TextField filterTextFieldIdProducto = new TextField("Número producto");
 		filterTextFieldIdProducto.setPlaceholder("ingrese número de producto");
 		filterTextFieldIdProducto.addValueChangeListener(event -> {
@@ -406,7 +457,7 @@ public class OrdenView extends VerticalLayout implements View {
 				}catch( NumberFormatException e ){
 					return false;
 				}
-				
+
 				for( Ordendetalle od: ordenesDetalle){
 					if( od.getIdproducto().equals( new BigDecimal(valorIngresado) ) ){
 						retorno = true;
@@ -416,7 +467,7 @@ public class OrdenView extends VerticalLayout implements View {
 				return retorno;
 			});
 		});
-		
+
 		hl.addComponent(filterTextFieldIdProducto);
 		vl.addComponent(hl);
 
@@ -509,9 +560,9 @@ public class OrdenView extends VerticalLayout implements View {
 	}
 
 	private String formatTarjeta( Orden o ){
-		if( o.getIdtarjeta() != 0 ){
-			Tarjeta t = OracleDataService.get().getTarjetaXId(o.getIdtarjeta());
-			return t.getNumero();
+		if(  o.getIdtarjeta() != 0 ){
+			Tarjeta t = OracleDataService.get().getTarjetaXId(o.getIdtarjeta(), o.getCliente().getIdcliente());
+			return t!=null?t.getNumero():"";
 		}
 		return "Sin Tarjeta";
 	}

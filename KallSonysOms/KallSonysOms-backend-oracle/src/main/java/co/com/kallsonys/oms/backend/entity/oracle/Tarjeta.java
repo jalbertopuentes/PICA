@@ -10,7 +10,10 @@ import java.util.Date;
  * 
  */
 @Entity
-@NamedQuery(name="Tarjeta.findAll", query="SELECT t FROM Tarjeta t")
+@NamedQueries({
+@NamedQuery(name="Tarjeta.findAll", query="SELECT t FROM Tarjeta t"),
+@NamedQuery(name="Tarjeta.findXid", query="SELECT t FROM Tarjeta t where t.id =:idTarjeta")
+})
 public class Tarjeta implements Serializable {
 	private static final long serialVersionUID = 1L;
 
