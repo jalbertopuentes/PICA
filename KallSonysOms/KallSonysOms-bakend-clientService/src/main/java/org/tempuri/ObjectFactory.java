@@ -30,243 +30,147 @@ public class ObjectFactory {
     }
 
     /**
-     * Create an instance of {@link NuevoProducto }
+     * Create an instance of {@link NuevaOrden }
      * 
      */
-    public NuevoProducto createNuevoProducto() {
-        return new NuevoProducto();
+    public NuevaOrden createNuevaOrden() {
+        return new NuevaOrden();
     }
 
     /**
-     * Create an instance of {@link NuevoProductoResponse }
+     * Create an instance of {@link NuevaOrdenResponse }
      * 
      */
-    public NuevoProductoResponse createNuevoProductoResponse() {
-        return new NuevoProductoResponse();
+    public NuevaOrdenResponse createNuevaOrdenResponse() {
+        return new NuevaOrdenResponse();
     }
 
     /**
-     * Create an instance of {@link EditarProducto }
+     * Create an instance of {@link EditarOrdenEstado }
      * 
      */
-    public EditarProducto createEditarProducto() {
-        return new EditarProducto();
+    public EditarOrdenEstado createEditarOrdenEstado() {
+        return new EditarOrdenEstado();
     }
 
     /**
-     * Create an instance of {@link EditarProductoResponse }
+     * Create an instance of {@link EditarOrdenEstadoResponse }
      * 
      */
-    public EditarProductoResponse createEditarProductoResponse() {
-        return new EditarProductoResponse();
+    public EditarOrdenEstadoResponse createEditarOrdenEstadoResponse() {
+        return new EditarOrdenEstadoResponse();
     }
 
     /**
-     * Create an instance of {@link EliminarProducto }
+     * Create an instance of {@link BuscarOrdenCliente }
      * 
      */
-    public EliminarProducto createEliminarProducto() {
-        return new EliminarProducto();
+    public BuscarOrdenCliente createBuscarOrdenCliente() {
+        return new BuscarOrdenCliente();
     }
 
     /**
-     * Create an instance of {@link EliminarProductoResponse }
+     * Create an instance of {@link BuscarOrdenClienteResponse }
      * 
      */
-    public EliminarProductoResponse createEliminarProductoResponse() {
-        return new EliminarProductoResponse();
+    public BuscarOrdenClienteResponse createBuscarOrdenClienteResponse() {
+        return new BuscarOrdenClienteResponse();
     }
 
     /**
-     * Create an instance of {@link BuscarProductoCodigo }
+     * Create an instance of {@link BuscarOrdenesAbiertas }
      * 
      */
-    public BuscarProductoCodigo createBuscarProductoCodigo() {
-        return new BuscarProductoCodigo();
+    public BuscarOrdenesAbiertas createBuscarOrdenesAbiertas() {
+        return new BuscarOrdenesAbiertas();
     }
 
     /**
-     * Create an instance of {@link BuscarProductoCodigoResponse }
+     * Create an instance of {@link BuscarOrdenesAbiertasResponse }
      * 
      */
-    public BuscarProductoCodigoResponse createBuscarProductoCodigoResponse() {
-        return new BuscarProductoCodigoResponse();
+    public BuscarOrdenesAbiertasResponse createBuscarOrdenesAbiertasResponse() {
+        return new BuscarOrdenesAbiertasResponse();
     }
 
     /**
-     * Create an instance of {@link BuscarProducto }
+     * Create an instance of {@link BuscarOrdenesCerradasXMes }
      * 
      */
-    public BuscarProducto createBuscarProducto() {
-        return new BuscarProducto();
+    public BuscarOrdenesCerradasXMes createBuscarOrdenesCerradasXMes() {
+        return new BuscarOrdenesCerradasXMes();
     }
 
     /**
-     * Create an instance of {@link BuscarProductoResponse }
+     * Create an instance of {@link BuscarOrdenesCerradasXMesResponse }
      * 
      */
-    public BuscarProductoResponse createBuscarProductoResponse() {
-        return new BuscarProductoResponse();
+    public BuscarOrdenesCerradasXMesResponse createBuscarOrdenesCerradasXMesResponse() {
+        return new BuscarOrdenesCerradasXMesResponse();
     }
 
     /**
-     * Create an instance of {@link BuscarProductosRelacionados }
+     * Create an instance of {@link BuscarOrdenesCerradas }
      * 
      */
-    public BuscarProductosRelacionados createBuscarProductosRelacionados() {
-        return new BuscarProductosRelacionados();
+    public BuscarOrdenesCerradas createBuscarOrdenesCerradas() {
+        return new BuscarOrdenesCerradas();
     }
 
     /**
-     * Create an instance of {@link BuscarProductosRelacionadosResponse }
+     * Create an instance of {@link BuscarOrdenesCerradasResponse }
      * 
      */
-    public BuscarProductosRelacionadosResponse createBuscarProductosRelacionadosResponse() {
-        return new BuscarProductosRelacionadosResponse();
+    public BuscarOrdenesCerradasResponse createBuscarOrdenesCerradasResponse() {
+        return new BuscarOrdenesCerradasResponse();
     }
 
     /**
-     * Create an instance of {@link BuscarProductoCampana }
+     * Create an instance of {@link BuscarOrdenDetalle }
      * 
      */
-    public BuscarProductoCampana createBuscarProductoCampana() {
-        return new BuscarProductoCampana();
+    public BuscarOrdenDetalle createBuscarOrdenDetalle() {
+        return new BuscarOrdenDetalle();
     }
 
     /**
-     * Create an instance of {@link BuscarProductoCampanaResponse }
+     * Create an instance of {@link BuscarOrdenDetalleResponse }
      * 
      */
-    public BuscarProductoCampanaResponse createBuscarProductoCampanaResponse() {
-        return new BuscarProductoCampanaResponse();
+    public BuscarOrdenDetalleResponse createBuscarOrdenDetalleResponse() {
+        return new BuscarOrdenDetalleResponse();
     }
 
     /**
-     * Create an instance of {@link BuscarTop5Vendidos }
+     * Create an instance of {@link EditarOrdenProveedorMensajeria }
      * 
      */
-    public BuscarTop5Vendidos createBuscarTop5Vendidos() {
-        return new BuscarTop5Vendidos();
+    public EditarOrdenProveedorMensajeria createEditarOrdenProveedorMensajeria() {
+        return new EditarOrdenProveedorMensajeria();
     }
 
     /**
-     * Create an instance of {@link BuscarTop5VendidosResponse }
+     * Create an instance of {@link EditarOrdenProveedorMensajeriaResponse }
      * 
      */
-    public BuscarTop5VendidosResponse createBuscarTop5VendidosResponse() {
-        return new BuscarTop5VendidosResponse();
+    public EditarOrdenProveedorMensajeriaResponse createEditarOrdenProveedorMensajeriaResponse() {
+        return new EditarOrdenProveedorMensajeriaResponse();
     }
 
     /**
-     * Create an instance of {@link BuscarTop5VendidosSemana }
+     * Create an instance of {@link EditarOrdenProveedorMensajeriaEstado }
      * 
      */
-    public BuscarTop5VendidosSemana createBuscarTop5VendidosSemana() {
-        return new BuscarTop5VendidosSemana();
+    public EditarOrdenProveedorMensajeriaEstado createEditarOrdenProveedorMensajeriaEstado() {
+        return new EditarOrdenProveedorMensajeriaEstado();
     }
 
     /**
-     * Create an instance of {@link BuscarTop5VendidosSemanaResponse }
+     * Create an instance of {@link EditarOrdenProveedorMensajeriaEstadoResponse }
      * 
      */
-    public BuscarTop5VendidosSemanaResponse createBuscarTop5VendidosSemanaResponse() {
-        return new BuscarTop5VendidosSemanaResponse();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5VendidosFecha }
-     * 
-     */
-    public BuscarTop5VendidosFecha createBuscarTop5VendidosFecha() {
-        return new BuscarTop5VendidosFecha();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5VendidosFechaResponse }
-     * 
-     */
-    public BuscarTop5VendidosFechaResponse createBuscarTop5VendidosFechaResponse() {
-        return new BuscarTop5VendidosFechaResponse();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5ProductoVisto }
-     * 
-     */
-    public BuscarTop5ProductoVisto createBuscarTop5ProductoVisto() {
-        return new BuscarTop5ProductoVisto();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5ProductoVistoResponse }
-     * 
-     */
-    public BuscarTop5ProductoVistoResponse createBuscarTop5ProductoVistoResponse() {
-        return new BuscarTop5ProductoVistoResponse();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5ProductoVistoNuevo }
-     * 
-     */
-    public BuscarTop5ProductoVistoNuevo createBuscarTop5ProductoVistoNuevo() {
-        return new BuscarTop5ProductoVistoNuevo();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5ProductoVistoNuevoResponse }
-     * 
-     */
-    public BuscarTop5ProductoVistoNuevoResponse createBuscarTop5ProductoVistoNuevoResponse() {
-        return new BuscarTop5ProductoVistoNuevoResponse();
-    }
-
-    /**
-     * Create an instance of {@link BuscarVendidosFecha }
-     * 
-     */
-    public BuscarVendidosFecha createBuscarVendidosFecha() {
-        return new BuscarVendidosFecha();
-    }
-
-    /**
-     * Create an instance of {@link BuscarVendidosFechaResponse }
-     * 
-     */
-    public BuscarVendidosFechaResponse createBuscarVendidosFechaResponse() {
-        return new BuscarVendidosFechaResponse();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5CategoriasFecha }
-     * 
-     */
-    public BuscarTop5CategoriasFecha createBuscarTop5CategoriasFecha() {
-        return new BuscarTop5CategoriasFecha();
-    }
-
-    /**
-     * Create an instance of {@link BuscarTop5CategoriasFechaResponse }
-     * 
-     */
-    public BuscarTop5CategoriasFechaResponse createBuscarTop5CategoriasFechaResponse() {
-        return new BuscarTop5CategoriasFechaResponse();
-    }
-
-    /**
-     * Create an instance of {@link BuscarCategoriasFecha }
-     * 
-     */
-    public BuscarCategoriasFecha createBuscarCategoriasFecha() {
-        return new BuscarCategoriasFecha();
-    }
-
-    /**
-     * Create an instance of {@link BuscarCategoriasFechaResponse }
-     * 
-     */
-    public BuscarCategoriasFechaResponse createBuscarCategoriasFechaResponse() {
-        return new BuscarCategoriasFechaResponse();
+    public EditarOrdenProveedorMensajeriaEstadoResponse createEditarOrdenProveedorMensajeriaEstadoResponse() {
+        return new EditarOrdenProveedorMensajeriaEstadoResponse();
     }
 
 }

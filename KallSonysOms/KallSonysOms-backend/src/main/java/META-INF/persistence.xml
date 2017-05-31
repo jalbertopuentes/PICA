@@ -5,6 +5,16 @@
 		<class>co.com.kallsonys.oms.backend.entity.Categoria</class>
 		<class>co.com.kallsonys.oms.backend.entity.Fabricante</class>
 		<class>co.com.kallsonys.oms.backend.entity.Producto</class>
+		 <!-- 
+		<properties>
+			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://25.13.58.186/SQL12:1433;databaseName=KS"/>
+			<property name="javax.persistence.jdbc.user" value="KS"/>
+			<property name="javax.persistence.jdbc.password" value="ks"/>
+			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
+			<property name="eclipselink.jdbc.exclusive-connection.mode" value="Transactional"/>
+		</properties>
+		-->
+	
 		<properties>
 			<property name="javax.persistence.jdbc.url" value="jdbc:sqlserver://localhost:1433;databaseName=RapidService"/>
 			<property name="javax.persistence.jdbc.user" value="invitado"/>
@@ -12,5 +22,6 @@
 			<property name="javax.persistence.jdbc.driver" value="com.microsoft.sqlserver.jdbc.SQLServerDriver"/>
 			<property name="eclipselink.jdbc.exclusive-connection.mode" value="Transactional"/>
 		</properties>
+		
 	</persistence-unit>
 </persistence>

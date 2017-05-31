@@ -7,21 +7,22 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
-import java.util.Locale;
 
 import javax.xml.datatype.DatatypeConfigurationException;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.XMLGregorianCalendar;
 
-import org.datacontract.schemas._2004._07.productoentities.ArrayOfCategoriaEntity;
-import org.datacontract.schemas._2004._07.productoentities.CategoriaEntity;
-import org.datacontract.schemas._2004._07.productoentities.ProductoEntity;
+import org.datacontract.schemas._2004._07.ordenentities.ArrayOfOrdenesAbiertasEntity;
+import org.datacontract.schemas._2004._07.ordenentities.ArrayOfOrdenesCerradasEntity;
+import org.datacontract.schemas._2004._07.ordenentities.ArrayOfOrdenesCerradasXMesEntity;
+import org.datacontract.schemas._2004._07.ordenentities.OrdenesAbiertasEntity;
+import org.datacontract.schemas._2004._07.ordenentities.OrdenesCerradasEntity;
+import org.datacontract.schemas._2004._07.ordenentities.OrdenesCerradasXMesEntity;
 
 import com.vaadin.data.provider.DataProvider;
 import com.vaadin.data.provider.ListDataProvider;
 import com.vaadin.navigator.View;
 import com.vaadin.navigator.ViewChangeListener.ViewChangeEvent;
-import com.vaadin.server.Sizeable.Unit;
 import com.vaadin.ui.Alignment;
 import com.vaadin.ui.Button;
 import com.vaadin.ui.DateField;
@@ -39,11 +40,8 @@ import com.vaadin.ui.renderers.ButtonRenderer;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 
-import co.com.kallsonys.backend.services.impl.ServicioProductoImpl;
+import co.com.kallsonys.backend.services.impl.ServicioOrdenImpl;
 import co.com.kallsonys.oms.backend.bdservice.oracle.OracleDataService;
-import co.com.kallsonys.oms.backend.entity.oracle.Campana;
-import co.com.kallsonys.oms.backend.entity.oracle.Ciudad;
-import co.com.kallsonys.oms.backend.entity.oracle.Cliente;
 import co.com.kallsonys.oms.backend.entity.oracle.Orden;
 import co.com.kallsonys.oms.backend.entity.oracle.Tarjeta;
 
@@ -57,9 +55,13 @@ public class OrdenView extends VerticalLayout implements View {
 
 	public static final String VIEW_NAME = "Ordenes";
 
-	private Grid<Orden> grid;
-	private ListDataProvider<Orden> dataProvider;
-
+	private Grid<Orden> gridCrud;
+	private ListDataProvider<Orden> dataProviderCrud;
+	private ServicioOrdenImpl servicioOrdenImpl = new ServicioOrdenImpl();
+	
+	private Grid<OrdenesCerradasEntity> gridOrdenesCerradasTotal;
+	private ListDataProvider<OrdenesCerradasEntity> dataProviderOrdenesCerradasTotal;
+	
 	public OrdenView(){
 
 
@@ -72,7 +74,7 @@ public class OrdenView extends VerticalLayout implements View {
 		mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
 
 		mainTab.addTab(generarCrudView(),"Crud Ordenes");
-		mainTab.addTab(generarOrdenesCerradasTotalFacturado(),"Ordenes Cerradas-Total Facturado");
+		mainTab.addTab(generarTabOredenesCerradasTotalFacturado(),"Ordenes Cerradas-Total Facturado");
 		mainTab.addTab(generarTopOrdenesAbiertas(),"Top Ordenes Abiertas");
 		mainTab.addTab(generarRankingOrdenesCerradas(),"Top Ordenes Cerradas Mayor Ganancias");
 		addComponent(mainTab);
@@ -84,29 +86,245 @@ public class OrdenView extends VerticalLayout implements View {
 	public void enter(ViewChangeEvent event) {
 
 	}
+	
+	private VerticalLayout generarTabOredenesCerradasTotalFacturado(){
+		VerticalLayout vl = new VerticalLayout();
+		vl.addComponent(generarFiltrosBusquedaOrdenesCerradasTotal());
+		vl.addComponent(generarGridOrdenesCerradasTotal());
+		return vl;
+	}
+	
+	private Grid<OrdenesCerradasEntity> generarGridOrdenesCerradasTotal(){
+
+		gridOrdenesCerradasTotal = new Grid<>();
+		gridOrdenesCerradasTotal.setCaption("Órdenes que han facturado más dinero segun filtros");
+		gridOrdenesCerradasTotal.setWidth("100%");
+		gridOrdenesCerradasTotal.setSelectionMode(SelectionMode.NONE);
+
+		Collection<OrdenesCerradasEntity> ordenesCerradas = new ArrayList<>();
+		dataProviderOrdenesCerradasTotal = DataProvider.ofCollection(ordenesCerradas);
+		gridOrdenesCerradasTotal.setDataProvider(dataProviderOrdenesCerradasTotal);
+		
+		gridOrdenesCerradasTotal.addColumn(oc->oc.getValorFacturado())
+		.setCaption("Valor facturado");
+		
+		gridOrdenesCerradasTotal.addColumn(ordenAbierta->ordenAbierta.getOrden().getIdOrden())
+		.setCaption("Número Orden")
+		.setExpandRatio(2);
+		
+		gridOrdenesCerradasTotal.addColumn(ordenAbierta->ordenAbierta.getOrden().getEstado())
+		.setCaption("Estado Envío")
+		.setExpandRatio(2);
+
+		
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getCelular())
+		.setCaption("Celular")
+		.setExpandRatio(2);
+
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getDireccion())
+		.setCaption("Dirección")
+		.setExpandRatio(2);
+		
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getPersonaContacto())
+		.setCaption("Persona Contacto")
+		.setExpandRatio(2);
+		
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getTelefono())
+		.setCaption("Teléfono")
+		.setExpandRatio(2);
+		
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getCiudad())
+		.setCaption("Ciudad")
+		.setExpandRatio(2);
+		
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getCodigoPostal())
+		.setCaption("Código Postal")
+		.setExpandRatio(2);
+		
+		gridOrdenesCerradasTotal.addColumn(oa->oa.getOrden().getAsesor())
+		.setCaption("Asesor")
+		.setExpandRatio(2);
+		
+		
+		return gridOrdenesCerradasTotal;
+	}
+	
+	private VerticalLayout generarFiltrosBusquedaOrdenesCerradasTotal(){
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.setSpacing(true);
+
+		DateField fechaInicial = new DateField("Fecha Inicial");
+		LocalDate tmp = LocalDate.now();
+		fechaInicial.setRangeStart(tmp.minusMonths(1).plusDays(1));
+		fechaInicial.setRangeEnd(LocalDate.now());
+		fechaInicial.setRequiredIndicatorVisible(true);
+
+		DateField fechaFinal = new DateField("Fecha Final");
+		fechaFinal.setRangeStart(tmp.minusMonths(1).plusDays(1));
+		fechaFinal.setRangeEnd(LocalDate.now());
+		fechaFinal.setRequiredIndicatorVisible(true);
+
+		Button btnBuscar = new Button("Realizar Busqueda");
+
+		btnBuscar.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4488239168999571799L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+				try {
+					actioBuscar( fechaInicial, fechaFinal );
+				} catch (DatatypeConfigurationException e) {
+					e.printStackTrace();
+					Notification.show("Error realizando consulta!!", Type.ERROR_MESSAGE);
+				}
+			}
+		});
+
+		hl.addComponent(fechaInicial);
+		hl.addComponent(fechaFinal);
+		hl.addComponent(btnBuscar);
+		hl.setComponentAlignment(btnBuscar, Alignment.MIDDLE_CENTER);
+
+		VerticalLayout vl = new VerticalLayout();
+		vl.setWidth("100%");
+		vl.setResponsive(true);
+
+		vl.addComponent(hl);
+
+		return vl;
+	}
 
 	private VerticalLayout generarRankingOrdenesCerradas(){
 		VerticalLayout vl = new VerticalLayout();
+		Grid<OrdenesCerradasXMesEntity> grid = new Grid<OrdenesCerradasXMesEntity>();
+		grid.setCaption("Número de ordenes cerradas y total facturado por mes");
+		grid.setWidth("100%");
+		grid.setSelectionMode(SelectionMode.NONE);
 
+		Collection<OrdenesCerradasXMesEntity> ordenesCeradasPorMes = new ArrayList<>();
+		ArrayOfOrdenesCerradasXMesEntity arrayOfOrdenesCerradasXMesEntity =  servicioOrdenImpl.buscarOrdenesCerradasXMes();
+		if( arrayOfOrdenesCerradasXMesEntity != null && arrayOfOrdenesCerradasXMesEntity.getOrdenesCerradasXMesEntity() != null  ){
+			ordenesCeradasPorMes = arrayOfOrdenesCerradasXMesEntity.getOrdenesCerradasXMesEntity();
+		}
+		ListDataProvider<OrdenesCerradasXMesEntity> dataProvider = DataProvider.ofCollection(ordenesCeradasPorMes);
+		grid.setDataProvider(dataProvider);
+		
+		grid.addColumn(ocm->ocm.getMes())
+		.setCaption("Mes")
+		.setExpandRatio(2);
+		
+		grid.addColumn(ocm->ocm.getNumeroOrdenes())
+		.setCaption("Número de ordenes")
+		.setExpandRatio(2);
+
+		grid.addColumn(ocm->ocm.getValorFacturado())
+		.setCaption("Valor facturado")
+		.setExpandRatio(2);
+		
+		
+		vl.addComponent(grid);
+		
 		return vl;
 	}
 
 	private VerticalLayout generarTopOrdenesAbiertas(){
 		VerticalLayout vl = new VerticalLayout();
 
+		Grid<OrdenesAbiertasEntity> grid = new Grid<OrdenesAbiertasEntity>();
+		grid.setCaption("Ordenes que llevan más tiempo abiertas");
+		grid.setWidth("100%");
+		grid.setSelectionMode(SelectionMode.NONE);
+
+		Collection<OrdenesAbiertasEntity> ordenesAbiertas = new ArrayList<>();
+		ArrayOfOrdenesAbiertasEntity arrayOfOrdenesAbiertasEntity =  servicioOrdenImpl.buscarOrdenesAbiertas();
+		if( arrayOfOrdenesAbiertasEntity != null && arrayOfOrdenesAbiertasEntity.getOrdenesAbiertasEntity() != null  ){
+			ordenesAbiertas = arrayOfOrdenesAbiertasEntity.getOrdenesAbiertasEntity();
+		}
+		ListDataProvider<OrdenesAbiertasEntity> dataProvider = DataProvider.ofCollection(ordenesAbiertas);
+		grid.setDataProvider(dataProvider);
+		
+		grid.addColumn(ordenAbierta->ordenAbierta.getOrden().getIdOrden())
+		.setCaption("Número Orden")
+		.setExpandRatio(2);
+		
+		grid.addColumn(ordenAbierta->ordenAbierta.getOrden().getEstado())
+		.setCaption("Estado Envío")
+		.setExpandRatio(2);
+
+		grid.addColumn(OrdenesAbiertasEntity::getNombreCliente)
+		.setCaption("Cliente")
+		.setExpandRatio(2);
+		
+		grid.addColumn( this::formatTarjetaEntity)
+		.setCaption("Tarjeta")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getCelular())
+		.setCaption("Celular")
+		.setExpandRatio(2);
+
+		grid.addColumn(this::xmlGregorianToString)
+		.setCaption("Fecha")
+		.setExpandRatio(2);
+		
+		grid.addColumn(this::xmlGregorianToString2)
+		.setCaption("Fecha Revisión")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getDireccion())
+		.setCaption("Dirección")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getPersonaContacto())
+		.setCaption("Persona Contacto")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getTelefono())
+		.setCaption("Teléfono")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getCiudad())
+		.setCaption("Ciudad")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getCodigoPostal())
+		.setCaption("Código Postal")
+		.setExpandRatio(2);
+		
+		grid.addColumn(oa->oa.getOrden().getAsesor())
+		.setCaption("Asesor")
+		.setExpandRatio(2);
+		
+		vl.addComponent(grid);
 		return vl;
 	}
-
-	private VerticalLayout generarOrdenesCerradasTotalFacturado(){
-		VerticalLayout vl = new VerticalLayout();
-
-		return vl;
+	
+	private String xmlGregorianToString( OrdenesAbiertasEntity oe ){
+		XMLGregorianCalendar xmlDate = oe.getOrden().getFecha();
+		if( xmlDate != null ){
+			SimpleDateFormat dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(1, UI.getCurrent().getLocale());
+			return dateFormat.format(xmlDate.toGregorianCalendar().getTime());
+		}
+		return "";
+	}
+	
+	private String xmlGregorianToString2( OrdenesAbiertasEntity oe ){
+		XMLGregorianCalendar xmlDate = oe.getOrden().getFechaRevision();
+		if( xmlDate != null ){
+			SimpleDateFormat dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(1, UI.getCurrent().getLocale());
+			return dateFormat.format(xmlDate.toGregorianCalendar().getTime());
+		}
+		return "";
 	}
 
 	private VerticalLayout generarCrudView(){
 		VerticalLayout vl = new VerticalLayout();
 		//		vl.addComponent(generarSeccionBusqueda());
-		vl.addComponent(generarGrid());
+		vl.addComponent(generarGridDelCrud());
 		return vl;
 	}
 
@@ -115,19 +333,20 @@ public class OrdenView extends VerticalLayout implements View {
 
 		if( fechaInicial.getValue() != null && fechaFinal.getValue() != null ){
 
-			//			GregorianCalendar gcalTmp = GregorianCalendar.from(fechaInicial.getValue().atStartOfDay(ZoneId.systemDefault()));
-			//			XMLGregorianCalendar xcalFechaInicio = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcalTmp);
-			//
-			//			gcalTmp = GregorianCalendar.from(fechaFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
-			//			XMLGregorianCalendar xcalFechaFinal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcalTmp);
-			//
-			//			ArrayOfCategoriaEntity arrayOfCategoriaEntity = servicioProductoImpl.buscarCategoriasFecha(xcalFechaInicio, xcalFechaFinal);
-			//			Collection<CategoriaEntity> categoriasFiltradas = new ArrayList<>();
-			//			if( arrayOfCategoriaEntity.getCategoriaEntity() != null ){
-			//				categoriasFiltradas = arrayOfCategoriaEntity.getCategoriaEntity();
-			//			}
-			//			dataProvider = DataProvider.ofCollection(categoriasFiltradas);
-			//			grid.setDataProvider(dataProvider);
+						GregorianCalendar gcalTmp = GregorianCalendar.from(fechaInicial.getValue().atStartOfDay(ZoneId.systemDefault()));
+						XMLGregorianCalendar xcalFechaInicio = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcalTmp);
+			
+						gcalTmp = GregorianCalendar.from(fechaFinal.getValue().atStartOfDay(ZoneId.systemDefault()));
+						XMLGregorianCalendar xcalFechaFinal = DatatypeFactory.newInstance().newXMLGregorianCalendar(gcalTmp);
+			
+						ArrayOfOrdenesCerradasEntity arrayOfOrdenesCerradasEntity = servicioOrdenImpl.buscarOrdenesCerradas(xcalFechaInicio, xcalFechaFinal);
+						Collection<OrdenesCerradasEntity> categoriasFiltradas = new ArrayList<>();
+						if( arrayOfOrdenesCerradasEntity.getOrdenesCerradasEntity() != null ){
+							categoriasFiltradas = arrayOfOrdenesCerradasEntity.getOrdenesCerradasEntity();
+						}
+						
+						dataProviderOrdenesCerradasTotal = DataProvider.ofCollection(categoriasFiltradas);
+						gridOrdenesCerradasTotal.setDataProvider(dataProviderOrdenesCerradasTotal);
 
 		}else{
 			if( fechaInicial.getValue()==null ){
@@ -140,22 +359,22 @@ public class OrdenView extends VerticalLayout implements View {
 
 	}
 
-	private VerticalLayout generarGrid(){
+	private VerticalLayout generarGridDelCrud(){
 
 		VerticalLayout vl = new VerticalLayout();
-		grid = new Grid<>();
-		grid.setCaption("Ordenes");
-		grid.setWidth("100%");
-		grid.setSelectionMode(SelectionMode.NONE);
+		gridCrud = new Grid<>();
+		gridCrud.setCaption("Ordenes");
+		gridCrud.setWidth("100%");
+		gridCrud.setSelectionMode(SelectionMode.NONE);
 
 		Collection<Orden> ordenes = OracleDataService.get().getOrdenesParaCancelar();
-		dataProvider = DataProvider.ofCollection(ordenes);
-		grid.setDataProvider(dataProvider);
-		
+		dataProviderCrud = DataProvider.ofCollection(ordenes);
+		gridCrud.setDataProvider(dataProviderCrud);
+
 		TextField filterTextField = new TextField("Número orden");
 		filterTextField.setPlaceholder("ingrese número de orden");
 		filterTextField.addValueChangeListener(event -> {
-			dataProvider.setFilter(Orden::getIdorden , idOrden -> {
+			dataProviderCrud.setFilter(Orden::getIdorden , idOrden -> {
 				Long id = new Long(idOrden);
 				Long valorIngresado=-1L;
 				try{
@@ -172,70 +391,70 @@ public class OrdenView extends VerticalLayout implements View {
 
 		vl.addComponent(filterTextField);
 
-		grid.addColumn(Orden::getIdorden)
+		gridCrud.addColumn(Orden::getIdorden)
 		.setCaption("Número Orden")
 		.setExpandRatio(2);
 
-		grid.addColumn(this::formatEstadoenvio)
+		gridCrud.addColumn(this::formatEstadoenvio)
 		.setCaption("Estado Envío")
 		.setExpandRatio(2);
 
-		grid.addColumn(this::formatCliente)
+		gridCrud.addColumn(this::formatCliente)
 		.setCaption("Cliente")
 		.setExpandRatio(2);
 
-		grid.addColumn( this::formatTarjeta)
+		gridCrud.addColumn( this::formatTarjeta)
 		.setCaption("Tarjeta")
 		.setExpandRatio(2);
 
-		grid.addColumn(Orden::getCelular)
+		gridCrud.addColumn(Orden::getCelular)
 		.setCaption("Celular")
 		.setExpandRatio(2);
 
 		SimpleDateFormat dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(1, UI.getCurrent().getLocale());
 		//		String formatString = dateFormat.toPattern();
 
-		grid.addColumn( Orden::getFecha)
+		gridCrud.addColumn( Orden::getFecha)
 		.setCaption("Fecha")
 		.setRenderer(new DateRenderer(dateFormat));
 
-		grid.addColumn( Orden::getFecharevision)
+		gridCrud.addColumn( Orden::getFecharevision)
 		.setCaption("Fecha Revision")
 		.setRenderer(new DateRenderer(dateFormat));
 
-		grid.addColumn(Orden::getCodigopostal)
+		gridCrud.addColumn(Orden::getCodigopostal)
 		.setCaption("Código Postal")
 		.setExpandRatio(2);
 
-		grid.addColumn(Orden::getComentario)
+		gridCrud.addColumn(Orden::getComentario)
 		.setCaption("Comentario")
 		.setExpandRatio(2);
 
-		grid.addColumn(Orden::getDireccion)
+		gridCrud.addColumn(Orden::getDireccion)
 		.setCaption("Dirección")
 		.setExpandRatio(2);
 
-		grid.addColumn(Orden::getPersonacontacto)
+		gridCrud.addColumn(Orden::getPersonacontacto)
 		.setCaption("Persona Contacto")
 		.setExpandRatio(2);
 
-		grid.addColumn(Orden::getTelefono)
+		gridCrud.addColumn(Orden::getTelefono)
 		.setCaption("Tefono")
 		.setExpandRatio(2);
 
-		grid.addColumn(this::formatCiudad)
+		gridCrud.addColumn(this::formatCiudad)
 		.setCaption("Ciudad")
 		.setExpandRatio(2);
 
-		grid.addColumn(Orden::getAsesor)
+		gridCrud.addColumn(Orden::getAsesor)
 		.setCaption("Asesor")
 		.setExpandRatio(2);
-		
-		grid.addColumn(person -> "Cancelar/Eliminar",
+
+		gridCrud.addColumn(person -> "Cancelar/Eliminar",
 				new ButtonRenderer<Object>(clickEvent -> {
 					ordenes.remove(clickEvent.getItem());
 					OracleDataService.get().cancelarOrden( (Orden) clickEvent.getItem());
-					
+
 					ListDataProvider<Orden> dataProviderTmp = DataProvider.ofCollection(ordenes);
 					filterTextField.addValueChangeListener(event -> {
 						dataProviderTmp.setFilter(Orden::getIdorden , idOrden -> {
@@ -252,10 +471,10 @@ public class OrdenView extends VerticalLayout implements View {
 							return false;
 						});
 					});
-					grid.setDataProvider(dataProviderTmp);
+					gridCrud.setDataProvider(dataProviderTmp);
 				}));
 
-		vl.addComponent(grid);
+		vl.addComponent(gridCrud);
 
 		return vl;
 	}
@@ -264,6 +483,13 @@ public class OrdenView extends VerticalLayout implements View {
 		if( o.getIdtarjeta() != 0 ){
 			Tarjeta t = OracleDataService.get().getTarjetaXId(o.getIdtarjeta());
 			return t.getNumero();
+		}
+		return "Sin Tarjeta";
+	}
+	
+	private String formatTarjetaEntity( OrdenesAbiertasEntity oa ){
+		if( oa.getOrden().getNumeroTarjeta()!=null && !oa.getOrden().getNumeroTarjeta().equals("0") ){
+			return oa.getOrden().getNumeroTarjeta();
 		}
 		return "Sin Tarjeta";
 	}
