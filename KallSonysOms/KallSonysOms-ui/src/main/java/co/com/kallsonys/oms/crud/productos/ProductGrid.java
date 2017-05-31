@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 import java.util.Comparator;
 import java.util.stream.Collectors;
 
+import org.datacontract.schemas._2004._07.productoentities.ProductoEntity;
+
 import com.vaadin.ui.Grid;
 import com.vaadin.ui.renderers.HtmlRenderer;
 
@@ -29,6 +31,7 @@ public class ProductGrid extends Grid<Product> {
 		addColumn(produc ->
 	      "<a href='" +EUrlB2c.URL_B2C.getValue()+produc.getId() + "' target='_blank'>Ver</a>",
 	      new HtmlRenderer());
+		addColumn(Product::getId).setCaption("Número");
 		addColumn(Product::getCodigo).setCaption("Código");
 		addColumn(Product::getProductName).setCaption("Nombre del producto");
 

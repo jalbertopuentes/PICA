@@ -15,25 +15,27 @@ public class AboutView extends VerticalLayout implements View {
     public static final String VIEW_NAME = "A cerca de";
 
     public AboutView() {
-        CustomLayout aboutContent = new CustomLayout("aboutview");
-        aboutContent.setStyleName("about-content");
-
-        // you can add Vaadin components in predefined slots in the custom
-        // layout
-        aboutContent.addComponent(
-                new Label(VaadinIcons.INFO_CIRCLE.getHtml()
-                        + " Esta aplicación usa Vaadin "
-                        + Version.getFullVersion(), ContentMode.HTML), "info");
-
-        setSizeFull();
-        setMargin(false);
-        setStyleName("about-view");
-        addComponent(aboutContent);
-        setComponentAlignment(aboutContent, Alignment.MIDDLE_CENTER);
+       
     }
 
     @Override
     public void enter(ViewChangeEvent event) {
+    	removeAllComponents();
+    	 CustomLayout aboutContent = new CustomLayout("aboutview");
+         aboutContent.setStyleName("about-content");
+
+         // you can add Vaadin components in predefined slots in the custom
+         // layout
+         aboutContent.addComponent(
+                 new Label(VaadinIcons.INFO_CIRCLE.getHtml()
+                         + " Esta aplicación usa Vaadin "
+                         + Version.getFullVersion(), ContentMode.HTML), "info");
+
+         setSizeFull();
+         setMargin(false);
+         setStyleName("about-view");
+         addComponent(aboutContent);
+         setComponentAlignment(aboutContent, Alignment.MIDDLE_CENTER);
     }
 
 }

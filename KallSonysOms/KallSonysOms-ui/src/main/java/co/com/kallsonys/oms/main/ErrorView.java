@@ -17,7 +17,7 @@ public class ErrorView extends VerticalLayout implements View {
     private Label explanation;
 
     public ErrorView() {
-        Label header = new Label("The view could not be found");
+        Label header = new Label("Bienvenido al OMS de KALL-SONY'S");
         header.addStyleName(ValoTheme.LABEL_H1);
         addComponent(header);
         addComponent(explanation = new Label());
@@ -26,7 +26,7 @@ public class ErrorView extends VerticalLayout implements View {
     @Override
     public void enter(ViewChangeListener.ViewChangeEvent event) {
         explanation.setValue(String.format(
-                "You tried to navigate to a view ('%s') that does not exist.",
+                "Seleccione una opción del menú.",
                 event.getViewName()));
     }
 }

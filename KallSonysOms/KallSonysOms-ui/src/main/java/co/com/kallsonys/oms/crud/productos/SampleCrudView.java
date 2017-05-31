@@ -74,17 +74,6 @@ public class SampleCrudView extends CssLayout implements View {
 	private ServicioProductoImpl servicioProductoImpl= new ServicioProductoImpl();
 
 	public SampleCrudView() {
-		setSizeFull();
-		addStyleName("crud-view");
-
-		TabSheet mainTab = new TabSheet();
-		mainTab.setHeight(100.0f, Unit.PERCENTAGE);
-		mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
-		mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
-
-		mainTab.addTab(generarCrudProducto(),"Crud Producto");
-		mainTab.addTab(generarProductosMasVendidos(),"Productos Más Vendidos");
-		addComponent(mainTab);
 
 	}
 
@@ -110,6 +99,7 @@ public class SampleCrudView extends CssLayout implements View {
 		      "<a href='" +EUrlB2c.URL_B2C.getValue()+producto.getIdProducto() + "' target='_blank'>Ver</a>",
 		      new HtmlRenderer());
 			
+			gridProductosMasVendidos.addColumn(ProductoEntity::getIdProducto).setCaption("Número");
 			gridProductosMasVendidos.addColumn(ProductoEntity::getCodigo).setCaption("Código");
 			gridProductosMasVendidos.addColumn(ProductoEntity::getNombre).setCaption("Nombre del producto");
 
@@ -297,6 +287,19 @@ public class SampleCrudView extends CssLayout implements View {
 
 	@Override
 	public void enter(ViewChangeEvent event) {
+		removeAllComponents();
+		setSizeFull();
+		addStyleName("crud-view");
+
+		TabSheet mainTab = new TabSheet();
+		mainTab.setHeight(100.0f, Unit.PERCENTAGE);
+		mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
+		mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
+
+		mainTab.addTab(generarCrudProducto(),"Crud Producto");
+		mainTab.addTab(generarProductosMasVendidos(),"Productos Más Vendidos");
+		addComponent(mainTab);
+		
 		viewLogic.enter(event.getParameters());
 	}
 

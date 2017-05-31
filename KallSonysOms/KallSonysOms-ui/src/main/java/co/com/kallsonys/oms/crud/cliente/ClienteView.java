@@ -31,18 +31,23 @@ import com.vaadin.ui.Grid;
 import com.vaadin.ui.HorizontalLayout;
 import com.vaadin.ui.Notification;
 import com.vaadin.ui.TabSheet;
+import com.vaadin.ui.Grid.ItemClick;
 import com.vaadin.ui.Grid.SelectionMode;
 import com.vaadin.ui.Notification.Type;
 import com.vaadin.ui.TextField;
 import com.vaadin.ui.UI;
 import com.vaadin.ui.VerticalLayout;
+import com.vaadin.ui.components.grid.ItemClickListener;
 import com.vaadin.ui.Button.ClickEvent;
+import com.vaadin.ui.ComboBox;
 import com.vaadin.ui.renderers.DateRenderer;
 import com.vaadin.ui.themes.ValoTheme;
 
 import co.com.kallsonys.backend.services.impl.ServicioClienteImpl;
 import co.com.kallsonys.oms.backend.bdservice.oracle.OracleDataService;
+import co.com.kallsonys.oms.backend.bdservice.oracle.OracleDataServiceImpl;
 import co.com.kallsonys.oms.backend.entity.oracle.Cliente;
+import co.com.kallsonys.oms.backend.entity.oracle.Tipocliente;
 
 public class ClienteView extends VerticalLayout implements View{
 
@@ -58,10 +63,19 @@ public class ClienteView extends VerticalLayout implements View{
 
 	private Grid<ClienteEntity> gridClientesXProducto;
 	private ListDataProvider<ClienteEntity> dataProviderClientesXProducto;
+	private Cliente clienteSeleccionado;
+	private ComboBox<Tipocliente> comboTipoUsuarioEditor;
+	private Button btnActualizarTipoCliente;
 
 	public ClienteView(){
+		setResponsive(true);
+	}
 
+	@Override
+	public void enter(ViewChangeEvent event) {
+		removeAllComponents();
 		TabSheet mainTab = new TabSheet();
+		mainTab.setResponsive(true);
 		mainTab.setHeight(100.0f, Unit.PERCENTAGE);
 		mainTab.addStyleName(ValoTheme.TABSHEET_FRAMED);
 		mainTab.addStyleName(ValoTheme.TABSHEET_PADDED_TABBAR);
@@ -71,12 +85,6 @@ public class ClienteView extends VerticalLayout implements View{
 		mainTab.addTab(generarTabClientesXProducto(),"Buscar Clientes Producto");
 
 		addComponent(mainTab);
-
-	}
-
-	@Override
-	public void enter(ViewChangeEvent event) {
-
 	}
 
 	private VerticalLayout generarTabClientesXProducto(){
@@ -269,6 +277,7 @@ public class ClienteView extends VerticalLayout implements View{
 	private VerticalLayout generarTabClientes(){
 
 		Grid<Cliente> grid = new Grid<>();
+		grid.setResponsive(true);
 		grid.setCaption("Clientes");
 		grid.setWidth("100%");
 		grid.setSelectionMode(SelectionMode.NONE);
@@ -288,7 +297,7 @@ public class ClienteView extends VerticalLayout implements View{
 			});
 		});
 
-		grid.addColumn(Cliente::getTipodocumento)
+		grid.addColumn(cli->cli.getTipodocumento().getTipodocumento())
 		.setCaption("Tipo Documento")
 		.setExpandRatio(2);
 
@@ -307,8 +316,14 @@ public class ClienteView extends VerticalLayout implements View{
 		.setCaption("Apellido")
 		.setEditorComponent(apellidoEditor, Cliente::setApellido)
 		.setExpandRatio(2);
-
+		
 		Binder<Cliente> binder = new Binder<>();
+		
+		
+		grid.addColumn(cli->cli.getTipocliente().getTipo())
+		.setCaption("Tipo Cliente")
+		.setExpandRatio(2);
+
 
 		DateField fechaNacimiento = new DateField();
 		SimpleDateFormat dateFormat = (SimpleDateFormat) DateFormat.getDateInstance(1, UI.getCurrent().getLocale());
@@ -347,7 +362,7 @@ public class ClienteView extends VerticalLayout implements View{
 
 		TextField direccionEditor = new TextField();
 		grid.addColumn(Cliente::getDireccion).
-		setCaption("E-mail")
+		setCaption("Dirección")
 		.setEditorComponent(direccionEditor, Cliente::setDireccion)
 		.setExpandRatio(2);
 
@@ -360,10 +375,63 @@ public class ClienteView extends VerticalLayout implements View{
 			OracleDataService.get().actualizarCliente(c);
 		});
 		grid.getEditor().setEnabled(true);
+		
+		
+		grid.addItemClickListener(new ItemClickListener<Object>() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void itemClick(ItemClick<Object> event) {
+				clienteSeleccionado = (Cliente) event.getItem();
+				comboTipoUsuarioEditor.setValue(clienteSeleccionado.getTipocliente());
+				comboTipoUsuarioEditor.setVisible(true);
+				btnActualizarTipoCliente.setVisible(true);
+			}
+	    });
 
 		VerticalLayout vl = new VerticalLayout();
-		vl.addComponent(filterTextField);
+		vl.setResponsive(true);
+		HorizontalLayout hl = new HorizontalLayout();
+		hl.setResponsive(true);
+		hl.setSpacing(true);
+		comboTipoUsuarioEditor = new ComboBox<>("Tipo de cliente");
+		comboTipoUsuarioEditor.setVisible(false);
+		comboTipoUsuarioEditor.setItemCaptionGenerator(Tipocliente::getTipo);
+		comboTipoUsuarioEditor.setItems(OracleDataServiceImpl.get().getAllTipoCliente());
+		
+		btnActualizarTipoCliente = new Button("Actualizar tipo de cliente");
+		btnActualizarTipoCliente.setVisible(false);
+		btnActualizarTipoCliente.addClickListener(new Button.ClickListener() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = -4488239168999571799L;
+
+			@Override
+			public void buttonClick(ClickEvent event) {
+					actioActualizarTipoCliente(  );
+					dataProvider.refreshItem(clienteSeleccionado);
+			}
+		});
+		
+		hl.addComponent(filterTextField);
+		hl.addComponent(comboTipoUsuarioEditor);
+		hl.addComponent(btnActualizarTipoCliente);
+		hl.setComponentAlignment(btnActualizarTipoCliente, Alignment.BOTTOM_CENTER);
+		
+		vl.addComponent(hl);
 		vl.addComponent(grid);
 		return vl;
+	}
+	
+	private void actioActualizarTipoCliente(){
+		clienteSeleccionado.setTipocliente(comboTipoUsuarioEditor.getValue());
+		OracleDataServiceImpl.get().actualizarCliente(clienteSeleccionado);
+		Notification.show("Cliente Actualizado satisfactoriamente!!", Type.HUMANIZED_MESSAGE);
+
 	}
 }

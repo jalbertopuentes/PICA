@@ -35,13 +35,12 @@ public class CampanaView extends VerticalLayout implements View{
 
 	public CampanaView(){
 
-		addComponent(generarCrud());
-
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
+		removeAllComponents();
+		addComponent(generarCrud());
 	}
 
 	private VerticalLayout generarCrud(){

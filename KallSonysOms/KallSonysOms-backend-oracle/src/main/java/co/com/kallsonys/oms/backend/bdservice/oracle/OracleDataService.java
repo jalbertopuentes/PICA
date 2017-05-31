@@ -7,6 +7,7 @@ import co.com.kallsonys.oms.backend.entity.oracle.Campana;
 import co.com.kallsonys.oms.backend.entity.oracle.Cliente;
 import co.com.kallsonys.oms.backend.entity.oracle.Orden;
 import co.com.kallsonys.oms.backend.entity.oracle.Tarjeta;
+import co.com.kallsonys.oms.backend.entity.oracle.Tipocliente;
 
 public abstract class OracleDataService implements Serializable {
 
@@ -34,5 +35,9 @@ public abstract class OracleDataService implements Serializable {
 	public abstract Tarjeta getTarjetaXId( long idTarjeta );
 	
 	public abstract void cancelarOrden( Orden o );
+	
+	public abstract List<Tipocliente> getAllTipoCliente();
+	
+	public abstract List<Orden> getOrdenesXidProducto( Long idProducto );
 
 }

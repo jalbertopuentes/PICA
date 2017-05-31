@@ -46,14 +46,13 @@ public class CategoriaView extends VerticalLayout implements View {
 
 	public CategoriaView(){
 
-		addComponent(generarSeccionBusqueda());
-		addComponent(generarGrid());
-
 	}
 
 	@Override
 	public void enter(ViewChangeEvent event) {
-
+		removeAllComponents();
+		addComponent(generarSeccionBusqueda());
+		addComponent(generarGrid());
 	}
 
 	private VerticalLayout generarSeccionBusqueda(){

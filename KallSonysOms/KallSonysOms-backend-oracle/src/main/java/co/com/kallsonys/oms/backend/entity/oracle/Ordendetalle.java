@@ -9,7 +9,10 @@ import java.math.BigDecimal;
  * 
  */
 @Entity
-@NamedQuery(name="Ordendetalle.findAll", query="SELECT o FROM Ordendetalle o")
+@NamedQueries({
+@NamedQuery(name="Ordendetalle.findAll", query="SELECT o FROM Ordendetalle o"),
+@NamedQuery(name="Ordendetalle.findXidProducto", query="SELECT o FROM Ordendetalle o where o.idproducto = :idProducto"),
+})
 public class Ordendetalle implements Serializable {
 	private static final long serialVersionUID = 1L;
 
